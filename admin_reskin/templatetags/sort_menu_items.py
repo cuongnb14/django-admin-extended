@@ -3,9 +3,9 @@ from django.conf import settings
 
 register = template.Library()
 
-RESKIN_MENU_APP_ORDER = settings.RESKIN_MENU_APP_ORDER
-RESKIN_MENU_MODEL_ORDER = settings.RESKIN_MENU_MODEL_ORDER
-RESKIN_APP_ICON = settings.RESKIN_APP_ICON
+RESKIN_MENU_APP_ORDER = settings.RESKIN_MENU_APP_ORDER if hasattr(settings, 'RESKIN_MENU_APP_ORDER') else []
+RESKIN_MENU_MODEL_ORDER = settings.RESKIN_MENU_MODEL_ORDER if hasattr(settings, 'RESKIN_MENU_MODEL_ORDER') else []
+RESKIN_APP_ICON = settings.RESKIN_APP_ICON if hasattr(settings, 'RESKIN_APP_ICON') else {'user': 'fas fa-user', 'auth': 'fas fa-users',}
 
 
 @register.filter
