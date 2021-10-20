@@ -1,37 +1,40 @@
-# Django Admin Reskin
+Django Admin Reskin
+===================
 
-# Install
+Install
+=======
 
-```
-pip install git+https://github.com/cuongnb14/django-admin-reskin.git@master#egg=django-admin-reskin
-```
+::
 
-# Setting
+    pip install git+https://github.com/cuongnb14/django-admin-reskin.git@master#egg=django-admin-reskin
 
-```python
-# Install app
-INSTALLED_APPS = [
-    'fontawesomefree',
-    'admin_reskin',
-    'django.contrib.admin',
-    ...
-]
+Setting
+=======
 
-# Menu app order
-RESKIN_MENU_APP_ORDER = [
-    "user",
-    "auth"
-]
+.. code:: python
 
-# Menu model order
-RESKIN_MENU_MODEL_ORDER = [
-    "User",
-    "Group",
-]
+    # Install app
+    INSTALLED_APPS = [
+        'fontawesomefree',
+        'admin_reskin',
+        'django.contrib.admin',
+        ...
+    ]
 
-RESKIN_APP_ICON = {
-    'user': 'fas fa-user',
-    'auth': 'fas fa-users',
-}
+    # Menu app order
+    RESKIN_MENU_APP_ORDER = [
+        "user",
+        "auth"
+    ]
 
-```
+    # Menu model order
+    RESKIN_MENU_MODEL_ORDER = [
+        "User",
+        "Group",
+    ]
+
+    RESKIN_APP_ICON = {
+        'user': 'fas fa-user',
+        'auth': 'fas fa-users',
+    }
+
