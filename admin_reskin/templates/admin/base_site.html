@@ -6,19 +6,20 @@
   <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <style>
     .btn-bookmark {
-      	position:fixed;
-        width:40px;
-        height:40px;
-        bottom:40px;
-        right:40px;
-        background-color:#417690;
-        color:#FFF;
-        border-radius:50px;
-        text-align:center;
+      position:fixed;
+      width:40px;
+      height:40px;
+      bottom:40px;
+      right:40px;
+      background-color:#417690;
+      color:#FFF;
+      border-radius:50px;
+      text-align:center;
     }
 
     .btn-bookmark:hover {
       cursor: pointer;
+      background-color: #628da3;
     }
 
     .btn-bookmark .icon {
@@ -241,17 +242,20 @@
 
       $('.btn-bookmark').click(function () {
         let name = prompt('Bookmark name:', '');
-        let data = {
-          name: name,
-          url: window.location.pathname
-        }
-        $.post(
-          "{% url 'admin:admin_reskin_add_bookmark' %}",
-          data,
-          function( data ) {
-            alert('Bookmark added');
+        if (name) {
+          let data = {
+            name: name,
+            url: window.location.pathname
           }
-        );
+          $.post(
+            "{% url 'admin:admin_reskin_add_bookmark' %}",
+            data,
+            function( data ) {
+              alert(`Bookmark ${name} added`);
+            }
+          );
+        }
+        
       })
     })
 
