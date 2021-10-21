@@ -4,8 +4,9 @@ Django Admin Reskin
 
 - Custom order menu item
 - Restyle sidebar menu UI
-- Custom icon for app menu base on fontawesome free v5: https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free
+- Integrate icon fontawesome free v5: https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free
 - Restyle align for form row in change page
+- Bookmark menu
 
 Install
 =======
