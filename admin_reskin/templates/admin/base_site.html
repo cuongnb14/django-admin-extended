@@ -5,6 +5,26 @@
   <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
   <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <style>
+    .btn-bookmark {
+      	position:fixed;
+        width:40px;
+        height:40px;
+        bottom:40px;
+        right:40px;
+        background-color:#417690;
+        color:#FFF;
+        border-radius:50px;
+        text-align:center;
+    }
+
+    .btn-bookmark:hover {
+      cursor: pointer;
+    }
+
+    .btn-bookmark .icon {
+      margin-top: 14px;
+    }
+
     /* for default btn */
     .d-btn {
       background-color: #ffffff;
@@ -163,6 +183,10 @@
       text-decoration: none;
     }
 
+    #nav-sidebar tr a:hover {
+      color: #6cb6db;
+    }
+
     #nav-sidebar td, #nav-sidebar th {
       border: none;
       font-weight: normal;
@@ -214,8 +238,29 @@
           $(this).next().toggle(0);
         }
       })
+
+      $('.btn-bookmark').click(function () {
+        let name = prompt('Bookmark name:', '');
+        let data = {
+          name: name,
+          url: window.location.pathname
+        }
+        $.post(
+          "{% url 'admin:admin_reskin_add_bookmark' %}",
+          data,
+          function( data ) {
+            alert('Bookmark added');
+          }
+        );
+      })
     })
 
 
   </script>
+{% endblock %}
+
+{% block footer %}
+  <div id="footer">
+    <span class="btn-bookmark"><i class="icon far fa-bookmark"></i></span>
+  </div>
 {% endblock %}

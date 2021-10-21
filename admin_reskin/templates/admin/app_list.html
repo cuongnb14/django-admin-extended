@@ -3,6 +3,7 @@
 
 {% if app_list %}
 {% for app in app_list|sort_apps %}
+{% if not app.app_label == 'admin_reskin_bookmark' or request.user.is_superuser  %}
 <div class="app-{{ app.app_label }} module{% if app.app_url in request.path %} current-app{% endif %}">
   <table>
     <caption data-app-url="{{ app.app_url }}">
@@ -37,6 +38,7 @@
     {% endfor %}
   </table>
 </div>
+{% endif %}
 {% endfor %}
 {% else %}
 <p>{% translate 'You don’t have permission to view or edit anything.' %}</p>
