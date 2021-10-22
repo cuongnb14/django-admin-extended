@@ -9,9 +9,9 @@ from . import models
 
 @admin.register(models.Bookmark)
 class BookmarkAdmin(admin.ModelAdmin):
-    list_display = ('name', 'url', 'is_active')
+    list_display = ('name', 'url', 'is_active', 'order')
     list_filter = ('is_active',)
-    list_editable = ('is_active',)
+    list_editable = ('is_active', 'order')
 
     def get_urls(self):
         urls = super().get_urls()

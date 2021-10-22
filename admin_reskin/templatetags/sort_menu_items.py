@@ -28,7 +28,7 @@ def sort_apps(apps):
         else max_index
     )
 
-    bookmarks = Bookmark.objects.filter(is_active=True)
+    bookmarks = Bookmark.objects.filter(is_active=True).order_by('order')
     bookmarks_model = []
     for bookmark in bookmarks:
         item = {
