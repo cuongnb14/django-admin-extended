@@ -279,6 +279,8 @@
 
 {% block footer %}
   <div id="footer">
-    <span class="btn-bookmark"><i class="icon far fa-bookmark"></i></span>
+    {% if request.user.is_superuser %}
+      <span class="btn-bookmark"><i class="icon far fa-bookmark"></i></span>
+    {% endif %} 
   </div>
 {% endblock %}
