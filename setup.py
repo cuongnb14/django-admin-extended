@@ -8,14 +8,14 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='django-admin-reskin',
+    name='django-admin-extended',
     version='1.0',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License', 
     description='Reskin for django admin UI',
     long_description=README,
-    url='https://github.com/cuongnb14/django-admin-reskin',
+    url='https://github.com/cuongnb14/django-admin-extended',
     author='Cuong Nguyen',
     author_email='cuongnb14@gmail.com',
     classifiers=[

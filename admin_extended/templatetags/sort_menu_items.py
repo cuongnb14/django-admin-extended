@@ -39,7 +39,7 @@ def sort_apps(apps):
             'view_only': True,
         }
         bookmarks_model.append(item)
-    
+
     if bookmarks_model:
         bookmark_app = {
             'name': 'Bookmark',
@@ -49,9 +49,9 @@ def sort_apps(apps):
             'has_module_perms': True,
             'models': bookmarks_model,
         }
-    
+
         apps = [bookmark_app] + apps
-    
+
     return apps
 
 

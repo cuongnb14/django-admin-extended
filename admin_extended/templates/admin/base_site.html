@@ -1,0 +1,391 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
+
+  <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+  <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+
+    :root {
+      --breadcrumbs-bg: #4a8dae;
+    }
+
+    .btn-bookmark {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      bottom: 40px;
+      right: 40px;
+      background-color: #417690;
+      color: #FFF;
+      border-radius: 50px;
+      text-align: center;
+    }
+
+    .btn-bookmark:hover {
+      cursor: pointer;
+      background-color: #628da3;
+    }
+
+    .btn-bookmark .icon {
+      margin-top: 14px;
+    }
+
+    /* INLINE MODEL
+    ========================================================================================= */
+    .inline-group .tabular td.original p {
+      display: none;
+    }
+
+    .inline-group .tabular tr.has_original td {
+      padding-top: 8px;
+    }
+
+    /* FILTER BOX
+    ========================================================================================= */
+    #content-main {
+      position: relative;
+    }
+
+    #changelist-filter {
+      position: absolute;
+      right: 10px;
+      top: 8px;
+      background: var(--hairline-color);
+    }
+
+    #changelist-filter h2 {
+      margin: 0;
+      text-align: right;
+    }
+
+    #changelist-filter h2:hover {
+      cursor: pointer;
+    }
+
+    #changelist-filter h3, #changelist-filter ul {
+      display: none;
+    }
+
+    #changelist-filter:hover h3, #changelist-filter:hover ul {
+      display: block;
+      min-width: 200px;
+    }
+
+    @media (max-width: 1024px) {
+      #changelist-filter {
+        top: 196px;
+      }
+    }
+
+
+    /* STYLE CUSTOM BUTTONS
+    ========================================================================================= */
+    .d-btn {
+      background-color: #ffffff;
+      border-radius: 3px;
+      border: 1px solid #dcdcdc;
+      display: inline-block;
+      cursor: pointer;
+      color: #666666;
+      font-weight: bold;
+      padding: 2px 5px;
+      min-width: 40px;
+      text-decoration: none;
+    }
+
+    .d-btn:focus {
+      border: 1px solid #dcdcdc;
+      outline: #dcdcdc !important;
+    }
+
+    .d-btn:hover {
+      background-color: #f6f6f6;
+    }
+
+    .d-btn:active {
+      border: 1px solid #dcdcdc;
+      position: relative;
+      top: 1px;
+    }
+
+    /* CHANGE LIST TABLE
+    ========================================================================================= */
+    table#result_list .field-id {
+      font-family: monospace;
+      white-space: nowrap;
+    }
+
+    .f-mono {
+      font-family: monospace;
+    }
+
+    /* ALIGN FROM ROW
+    ========================================================================================= */
+    @media (min-width: 1024px) {
+      fieldset div.form-row {
+        display: flex;
+      }
+
+      fieldset div.fieldBox {
+        flex: 1;
+        margin-right: 0;
+      }
+    }
+
+    /* MENU SIDEBAR
+    ========================================================================================= */
+
+    #nav-filter {
+      display: none;
+    }
+
+    /**
+    #nav-sidebar::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      background-color: #ffffff;
+    }
+
+    #nav-sidebar::-webkit-scrollbar {
+      width: 10px;
+      background-color: #F5F5F5;
+    }
+
+    #nav-sidebar::-webkit-scrollbar-thumb {
+      background-color: #ffffff;
+      border: 1px solid #d6d6d6;
+    }
+    */
+
+    .toggle-nav-sidebar::before {
+      content: '\2630';
+    }
+
+    .main.shifted .toggle-nav-sidebar::before {
+      content: '\2630';
+    }
+
+    .toggle-nav-sidebar {
+      position: absolute;
+      height: 48px;
+      border: none;
+      top: 0;
+      left: 8px;
+      background-color: rgba(0, 0, 0, 0);
+      color: var(--header-link-color);
+      font-size: 1.5em;
+    }
+
+    .toggle-nav-sidebar:hover {
+      background-color: var(--secondary);
+    }
+
+    .toggle-nav-sidebar:focus {
+      outline: none;
+      background-color: var(--secondary);
+    }
+
+    .main.shifted .toggle-nav-sidebar {
+    {#left: 233px;#}
+    }
+
+    .main.shifted > #nav-sidebar {
+      left: 0;
+    }
+
+    #nav-sidebar {
+      background-color: var(--primary);
+      flex: 0 0 256px;
+      border-right: 0;
+    }
+
+    .main > #nav-sidebar + .content {
+      margin-left: 40px;
+    }
+
+    .main.shifted > #nav-sidebar + .content {
+      margin-left: 0;
+      max-width: calc(100% - 257px);
+    }
+
+    #nav-sidebar table {
+      width: 100%;
+    }
+
+    #nav-sidebar tbody {
+      display: none;
+    }
+
+    #nav-sidebar tbody tr {
+      padding-left: 10px;
+    }
+
+
+    #nav-sidebar tbody tr:hover {
+      background-color: var(--selected-row);
+    }
+
+    #nav-sidebar .module {
+      margin-bottom: 0
+    }
+
+    #nav-sidebar .module caption {
+      line-height: 2em;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+
+    #nav-sidebar .module caption .app-icon {
+      position: absolute;
+    }
+
+    #nav-sidebar .module caption .app-name {
+      margin-left: 30px;
+    }
+
+    #nav-sidebar .module caption:hover {
+      background-color: var(--secondary);
+      cursor: pointer;
+    }
+
+    #nav-sidebar tr {
+      background-color: var(--hairline-color);
+    }
+
+    #nav-sidebar tr th a {
+      padding-left: 30px;
+      white-space: nowrap;
+      display: inline-block;
+      width: 140px;
+    }
+
+    #nav-sidebar tr a:focus {
+      text-decoration: none;
+    }
+
+    #nav-sidebar td, #nav-sidebar th {
+      border: none;
+      font-weight: normal;
+      line-height: 1.5em;
+    }
+
+
+    /* jquery UI
+    ========================================================================================= */
+    .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+      background-color: var(--primary) !important;
+      border-color: var(--primary) !important;
+    }
+
+    @media (prefers-color-scheme: dark) {
+
+      .ui-widget-content {
+        color: var(--body-fg) !important;
+        background-color: var(--body-bg) !important;
+        border-color: var(--hairline-color) !important;
+      }
+
+      .ui-widget-header {
+        background-color: var(--secondary) !important;
+        border-color: var(--secondary) !important;
+      }
+
+      .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+        background: var(--breadcrumbs-bg) !important;
+        border-color: var(--breadcrumbs-bg) !important;
+      }
+
+      .ui-state-default.ui-state-active {
+        background: var(--primary) !important;
+        border-color: var(--primary) !important;
+      }
+
+      .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited, a.ui-button, a:link.ui-button, a:visited.ui-button, .ui-button {
+        color: var(--body-fg) !important;
+      }
+
+      .ui-widget-content a {
+        color: var(--link-fg) !important;
+      }
+    }
+
+  </style>
+
+  <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous">
+  </script>
+
+  <script>
+    var DSwal = Swal.mixin({
+      showClass: {
+        backdrop: 'swal2-noanimation', // disable backdrop animation
+        popup: '',                     // disable popup animation
+        icon: ''                       // disable icon animation
+      },
+    })
+
+
+    var LoadingSwal = Swal.mixin({
+      title: 'Processing...',
+      html: 'Please wait...',
+      showClass: {
+        backdrop: 'swal2-noanimation', // disable backdrop animation
+        popup: '',                     // disable popup animation
+        icon: ''                       // disable icon animation
+      },
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    });
+
+
+    $(document).ready(function () {
+      let caption = $('#nav-sidebar caption')
+      caption.click(function (e) {
+        $('#nav-sidebar tbody').hide()
+        $(this).next().toggle(0);
+      })
+
+      caption.each(function () {
+        if (window.location.href.includes($(this).data('app-url'))) {
+          $(this).next().toggle(0);
+        }
+      })
+
+      $('.btn-bookmark').click(function () {
+        let name = prompt('Bookmark name:', '');
+        if (name) {
+          let data = {
+            name: name,
+            url: window.location.pathname
+          }
+          $.post(
+            "{% url 'admin:admin_reskin_add_bookmark' %}",
+            data,
+            function (data) {
+              alert(`Bookmark ${name} added`);
+            }
+          );
+        }
+
+      })
+    })
+  </script>
+
+{% endblock %}
+
+{% block footer %}
+  <div id="footer">
+    {% if request.user.is_superuser %}
+      {#      <span class="btn-bookmark"><i class="icon far fa-bookmark"></i></span>#}
+    {% endif %}
+  </div>
+{% endblock %}

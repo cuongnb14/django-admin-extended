@@ -1,0 +1,68 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}{{ block.super }}
+
+  {% if request.is_tabbed %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script>
+      $(function () {
+        $("#tabs").tabs();
+      });
+    </script>
+  {% endif %}
+
+{% endblock %}
+
+
+{% block object-tools-items %}
+  {{ block.super }}
+  {% if request.page_type == 'view' %}
+    <li><a href="?edit=1"><i class="fas fa-edit"></i> Edit</a></li>
+  {% endif %}
+{% endblock %}
+
+
+{% block submit_buttons_bottom %}
+  {% if not request.page_type == 'view' or is_popup %}
+    {{ block.super }}
+  {% endif %}
+{% endblock %}
+
+
+{% block field_sets %}
+  {% if request.is_tabbed %}
+  <div id="tabs">
+  <ul>
+    <li><a href="#tabs-main">Main</a></li>
+    {% for inline_admin_formset in inline_admin_formsets %}
+      <li><a
+        href="#tabs-{{ inline_admin_formset.formset.prefix }}">{{ inline_admin_formset.opts.verbose_name|capfirst }}</a>
+      </li>
+    {% endfor %}
+
+  </ul>
+  {% endif %}
+
+
+  <div id="tabs-main">
+    {% for fieldset in adminform %}
+      {% include "admin/includes/fieldset.html" %}
+    {% endfor %}
+  </div>
+
+{% endblock %}
+
+{% block inline_field_sets %}
+
+  {% for inline_admin_formset in inline_admin_formsets %}
+    <div id="tabs-{{ inline_admin_formset.formset.prefix }}">
+      {% include inline_admin_formset.opts.template %}
+    </div>
+  {% endfor %}
+  {% if request.is_tabbed %}
+  </div> {# Close div#tabs #}
+  {% endif %}
+
+{% endblock %}
+
