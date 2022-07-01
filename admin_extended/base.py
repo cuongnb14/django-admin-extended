@@ -1,10 +1,11 @@
 import copy
 import json
 
-from django.conf import settings
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+
+from .settings import ADMIN_EXTENDED_SETTINGS
 
 
 class ExtendedAdminModel(admin.ModelAdmin):
@@ -15,6 +16,8 @@ class ExtendedAdminModel(admin.ModelAdmin):
 
     ext_read_only_fields = []
     ext_write_only_fields = []
+
+    tab_inline = None
 
     def _changeform_view(self, request, object_id, form_url, extra_context):
         request.page_type = self.get_page_type(request, object_id)
@@ -73,8 +76,10 @@ class ExtendedAdminModel(admin.ModelAdmin):
 
     def get_inline_instances(self, request, obj=None):
         inline_instances = super().get_inline_instances(request, obj)
-        if inline_instances and settings.RESKIN_TABBED_INLINE_MODEL_ADMIN:
-            request.is_tabbed = True
-        else:
-            request.is_tabbed = False
+
+        request.is_tabbed = False
+        if inline_instances:
+            if ADMIN_EXTENDED_SETTINGS['MODEL_ADMIN_TABBED_INLINE'] or self.tab_inline:
+                request.is_tabbed = True
+
         return inline_instances

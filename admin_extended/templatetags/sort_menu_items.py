@@ -1,13 +1,13 @@
 from django import template
-from django.conf import settings
 
 from ..models import Bookmark
+from ..settings import ADMIN_EXTENDED_SETTINGS
 
 register = template.Library()
 
-RESKIN_MENU_APP_ORDER = settings.RESKIN_MENU_APP_ORDER
-RESKIN_MENU_MODEL_ORDER = settings.RESKIN_MENU_MODEL_ORDER
-RESKIN_APP_ICON = settings.RESKIN_APP_ICON
+MENU_APP_ORDER = ADMIN_EXTENDED_SETTINGS['MENU_APP_ORDER']
+MENU_MODEL_ORDER = ADMIN_EXTENDED_SETTINGS['MENU_MODEL_ORDER']
+APP_ICON = ADMIN_EXTENDED_SETTINGS['APP_ICON']
 
 
 @register.filter
@@ -16,15 +16,15 @@ def sort_apps(apps):
     for app in apps:
         if app['app_label'] == 'auth':
             app['name'] = 'Groups'
-        if RESKIN_APP_ICON.get(app['app_label']):
-            app['icon'] = RESKIN_APP_ICON.get(app['app_label'])
+        if APP_ICON.get(app['app_label']):
+            app['icon'] = APP_ICON.get(app['app_label'])
         else:
             app['icon'] = 'fas fa-layer-group'
 
     apps.sort(
         key=lambda x:
-        RESKIN_MENU_APP_ORDER.index(x['app_label'])
-        if x['app_label'] in RESKIN_MENU_APP_ORDER
+        MENU_APP_ORDER.index(x['app_label'])
+        if x['app_label'] in MENU_APP_ORDER
         else max_index
     )
 
@@ -60,8 +60,8 @@ def sort_models(models):
     max_index = len(models)
     models.sort(
         key=lambda x:
-        RESKIN_MENU_MODEL_ORDER.index(x['object_name'])
-        if x['object_name'] in RESKIN_MENU_MODEL_ORDER
+        MENU_MODEL_ORDER.index(x['object_name'])
+        if x['object_name'] in MENU_MODEL_ORDER
         else max_index
     )
     return models
