@@ -1,5 +1,8 @@
-Django Admin Reskin
+Django Admin Extended
 ===================
+
+Enhance UI/UX of django admin
+
 **Features:**
 
 - Custom order menu item
@@ -9,6 +12,7 @@ Django Admin Reskin
 - Restyle align for form row in change page
 - Collapse filter box
 - Admin inlines tabbable
+- Read only mode
 - Bookmark menu
 - And more utils functions
 
