@@ -46,3 +46,11 @@ Setting
         'MODEL_ADMIN_TABBED_INLINE': True,
     }
 
+Screenshots
+=======
+
+.. image:: screenshots/change-list-page.png
+
+.. image:: screenshots/view-mode.png
+
+.. image:: screenshots/edit-mode.png
