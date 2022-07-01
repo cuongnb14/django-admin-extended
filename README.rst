@@ -46,6 +46,37 @@ Setting
         'MODEL_ADMIN_TABBED_INLINE': True,
     }
 
+Usage
+=======
+
+.. code:: python
+
+    from django.apps import apps
+    from django.contrib import admin
+    from admin_extended.base import ExtendedAdminModel
+    from . import models
+
+
+
+    class PostCommentInline(admin.TabularInline):
+        model = models.PostComment
+        extra = 0
+
+    class PostTagInline(admin.TabularInline):
+        model = models.PostTag
+        extra = 0
+
+    @admin.register(models.Post)
+    class PostAdmin(ExtendedAdminModel):
+        list_display = ('id', 'title', 'post_at')
+        search_fields = ('title',)
+        search_help_text = 'Search by title'
+        list_filter = ('status',)
+        inlines = [
+            PostCommentInline,
+            PostTagInline
+        ]
+        
 Screenshots
 =======
 
