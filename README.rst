@@ -34,7 +34,7 @@ Setting
 
     ADMIN_EXTENDED_SETTINGS = {
         'MENU_APP_ORDER': ['user', 'auth'],
-        'MENU_MODEL_ORDER': ['User', 'Group],
+        'MENU_MODEL_ORDER': ['User', 'Group'],
         'APP_ICON': {
             'user': 'fas fa-user',
             'auth': 'fas fa-users',
