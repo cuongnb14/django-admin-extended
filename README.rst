@@ -49,8 +49,8 @@ Setting
 Screenshots
 =======
 
-.. image:: screenshots/change-list-page.png
+.. image:: screenshots/change-list-page.png?raw=true
 
-.. image:: screenshots/view-mode.png
+.. image:: screenshots/view-mode.png?raw=true
 
-.. image:: screenshots/edit-mode.png
+.. image:: screenshots/edit-mode.png?raw=true
