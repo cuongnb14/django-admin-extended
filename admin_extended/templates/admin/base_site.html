@@ -368,7 +368,7 @@
             url: window.location.pathname
           }
           $.post(
-            "{% url 'admin:admin_reskin_add_bookmark' %}",
+            "{% url 'admin:admin_extended_add_bookmark' %}",
             data,
             function (data) {
               alert(`Bookmark ${name} added`);

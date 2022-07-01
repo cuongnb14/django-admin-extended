@@ -1,3 +1,3 @@
 include LICENSE
 include README.rst
-recursive-include admin_reskin/templates *
+recursive-include admin_extended/templates *

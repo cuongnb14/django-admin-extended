@@ -44,8 +44,8 @@ def sort_apps(apps):
         bookmark_app = {
             'name': 'Bookmark',
             'icon': 'fas fa-bookmark',
-            'app_label': 'admin_reskin_bookmark',
-            'app_url': '/admin/admin_reskin/bookmark',
+            'app_label': 'admin_extended_bookmark',
+            'app_url': '/admin/admin_extended/bookmark',
             'has_module_perms': True,
             'models': bookmarks_model,
         }

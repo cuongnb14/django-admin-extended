@@ -13,7 +13,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     license='MIT License', 
-    description='Reskin for django admin UI',
+    description='Enhance UI/UX of django admin',
     long_description=README,
     url='https://github.com/cuongnb14/django-admin-extended',
     author='Cuong Nguyen',

@@ -16,7 +16,7 @@ class BookmarkAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         custom_urls = [
-            path('add-bookmark', self.admin_site.admin_view(self.add_bookmark_view), name='admin_reskin_add_bookmark'),
+            path('add-bookmark', self.admin_site.admin_view(self.add_bookmark_view), name='admin_extended_add_bookmark'),
         ]
         return custom_urls + urls
 
