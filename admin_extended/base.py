@@ -49,7 +49,7 @@ class ExtendedAdminModel(admin.ModelAdmin):
                             fields.append(f)
                     fieldset[1]['fields'] = fields
 
-        elif request.page_type == 'edit':
+        else:
             if self.ext_read_only_fields:
                 for fieldset in fieldsets:
                     fields = []
