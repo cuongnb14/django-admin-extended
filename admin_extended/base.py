@@ -61,18 +61,21 @@ class ExtendedAdminModel(admin.ModelAdmin):
         return fieldsets
 
     def get_html_img_tag(self, url, height='200px'):
-        return format_html(f'<img height="{height}" src="{url}" />')
+        return format_html('<img height="{}" src="{}" />', height, url)
 
     def get_html_a_tag(self, url, title=None, target='_blank', html_class=''):
         title = title if title else url
-        return format_html(f'<a href="{url}" class="{html_class}" target="{target}">{title}</a>')
+        return format_html(
+            '<a href="{}" class="{}" target="{}">{}</a>',
+            url, html_class, target, title
+        )
 
     def get_html_text_color(self, title, color):
-        return format_html(f'<b style="color:{color};">{title}</b>')
+        return format_html('<b style="color:{};">{}</b>', color, title)
 
     def format_json(self, content, indent=4):
         content = json.dumps(content, indent=indent)
-        return mark_safe(f'<pre>{content}</pre>')
+        return format_html('<pre>{}</pre>', content)
 
     def get_inline_instances(self, request, obj=None):
         inline_instances = super().get_inline_instances(request, obj)
