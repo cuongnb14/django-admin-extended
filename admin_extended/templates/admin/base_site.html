@@ -57,6 +57,10 @@
       background: var(--hairline-color);
     }
 
+    #changelist-filter details > summary {
+      cursor: pointer;
+    }
+
     #changelist-filter h2 {
       margin: 0;
       text-align: right;
@@ -66,11 +70,11 @@
       cursor: pointer;
     }
 
-    #changelist-filter h3, #changelist-filter ul {
+    #changelist-filter h3, #changelist-filter ul, details {
       display: none;
     }
 
-    #changelist-filter:hover h3, #changelist-filter:hover ul {
+    #changelist-filter:hover h3, #changelist-filter:hover ul, #changelist-filter:hover details {
       display: block;
       min-width: 200px;
     }
