@@ -27,9 +27,10 @@ class ExtendedAdminModel(admin.ModelAdmin):
 
     def get_actions(self, request):
         actions = super().get_actions(request)
-        if self.delete_without_confirm and 'delete_selected' in actions:
-            del actions['delete_selected']
-        actions['action_delete_without_confirm'] = self.get_action('action_delete_without_confirm')
+        if self.delete_without_confirm:
+            if 'delete_selected' in actions:
+                del actions['delete_selected']
+            actions['action_delete_without_confirm'] = self.get_action('action_delete_without_confirm')
         return actions
 
 
