@@ -14,6 +14,7 @@ Enhance UI/UX of django admin
 - Admin inlines tabbable
 - Read only mode
 - Bookmark menu
+- Ignore confirm delete page option
 - And more utils functions
 
 Install

@@ -18,6 +18,20 @@ class ExtendedAdminModel(admin.ModelAdmin):
     ext_write_only_fields = []
 
     tab_inline = None
+    delete_without_confirm = False
+
+    @admin.action(description='Delete selected without confirm')
+    def action_delete_without_confirm(self, request, queryset):
+        result = queryset.delete()
+        messages.success(request, f'Deleted {result[0]} record')
+
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if self.delete_without_confirm and 'delete_selected' in actions:
+            del actions['delete_selected']
+        actions['action_delete_without_confirm'] = self.get_action('action_delete_without_confirm')
+        return actions
+
 
     def _changeform_view(self, request, object_id, form_url, extra_context):
         request.page_type = self.get_page_type(request, object_id)
