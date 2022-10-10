@@ -2,6 +2,8 @@ import copy
 import json
 
 from django.contrib import admin
+from django.shortcuts import render
+from django.urls import path
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
@@ -101,3 +103,36 @@ class ExtendedAdminModel(admin.ModelAdmin):
                 request.is_tabbed = True
 
         return inline_instances
+
+
+class CustomTableAdminPage(admin.ModelAdmin):
+    model = None
+
+    def get_urls(self):
+        view_name = '{}_{}_changelist'.format(self.model._meta.app_label, self.model._meta.model_name)
+        return [
+            path('', self.custom_view, name=view_name),
+        ]
+
+    def get_data(self):
+        """
+        return dict of list. Eg:
+        results = {
+            'title': ['A', 'B', 'C'],
+            'rows': [
+                [12, 12, 14],
+                [12, 12, 14],
+                [12, 12, 14],
+                [12, 12, 14],
+            ],
+        }
+        """
+        raise NotImplementedError()
+
+    def custom_view(self, request, *args, **kwargs):
+        context = {
+            **admin.site.each_context(request),
+            'data': self.get_data(),
+        }
+
+        return render(request, 'admin/custom/custom_table_page.html', context)
