@@ -18,7 +18,7 @@
 {% block object-tools-items %}
   {{ block.super }}
   {% if request.page_type == 'view' %}
-    {% if request.page_type == 'view'  %}
+    {% if  has_change_permission or has_delete_permission %}
       <li><a href="?edit=1"><i class="fas fa-edit"></i> Edit</a></li>
     {% endif %}
   {% endif %}
