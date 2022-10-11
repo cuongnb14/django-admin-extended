@@ -18,7 +18,9 @@
 {% block object-tools-items %}
   {{ block.super }}
   {% if request.page_type == 'view' %}
-    <li><a href="?edit=1"><i class="fas fa-edit"></i> Edit</a></li>
+    {% if request.page_type == 'view'  %}
+      <li><a href="?edit=1"><i class="fas fa-edit"></i> Edit</a></li>
+    {% endif %}
   {% endif %}
 {% endblock %}
 
