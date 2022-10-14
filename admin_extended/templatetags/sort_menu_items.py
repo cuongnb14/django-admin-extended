@@ -57,7 +57,7 @@ def sort_apps(apps):
 
 @register.filter
 def sort_models(models):
-    max_index = len(models)
+    max_index = len(MENU_MODEL_ORDER)
     models.sort(
         key=lambda x:
         MENU_MODEL_ORDER.index(x['object_name'])
