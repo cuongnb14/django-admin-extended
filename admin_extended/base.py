@@ -19,7 +19,7 @@ class ExtendedAdminModel(admin.ModelAdmin):
     ext_read_only_fields = []
     ext_write_only_fields = []
 
-    tab_inline = None
+    tab_inline = False
     delete_without_confirm = False
 
     @admin.action(description='Delete selected without confirm')
@@ -57,7 +57,8 @@ class ExtendedAdminModel(admin.ModelAdmin):
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = copy.deepcopy(super().get_fieldsets(request, obj))
-        if request.page_type == 'view':
+        is_view_page = request.page_type == 'view'
+        if is_view_page:
             if self.ext_write_only_fields:
                 for fieldset in fieldsets:
                     fields = []

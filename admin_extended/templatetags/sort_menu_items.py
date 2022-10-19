@@ -1,13 +1,13 @@
 from django import template
 
 from ..models import Bookmark
-from django.conf import settings
+from ..settings import ADMIN_EXTENDED_SETTINGS
 
 register = template.Library()
 
-MENU_APP_ORDER = settings.ADMIN_EXTENDED_SETTINGS['MENU_APP_ORDER']
-MENU_MODEL_ORDER = settings.ADMIN_EXTENDED_SETTINGS['MENU_MODEL_ORDER']
-APP_ICON = settings.ADMIN_EXTENDED_SETTINGS['APP_ICON']
+MENU_APP_ORDER = ADMIN_EXTENDED_SETTINGS['MENU_APP_ORDER']
+MENU_MODEL_ORDER = ADMIN_EXTENDED_SETTINGS['MENU_MODEL_ORDER']
+APP_ICON = ADMIN_EXTENDED_SETTINGS['APP_ICON']
 
 
 @register.filter
