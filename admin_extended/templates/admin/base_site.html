@@ -215,6 +215,16 @@
       max-width: calc(100% - 257px);
     }
 
+    @media (max-width: 768px) {
+      .main.shifted > #nav-sidebar + .content {
+        max-width: 100%;
+      }
+
+      .main > #nav-sidebar + .content {
+        margin-left: 0;
+      }
+    }
+
     #nav-sidebar table {
       width: 100%;
     }
