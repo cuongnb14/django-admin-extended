@@ -17,9 +17,9 @@
       position: fixed;
       width: 40px;
       height: 40px;
-      bottom: 40px;
-      right: 40px;
-      background-color: #417690;
+      bottom: 10px;
+      right: 10px;
+      background-color: rgb(65 118 144 / 10%);
       color: #FFF;
       border-radius: 50px;
       text-align: center;
@@ -144,7 +144,7 @@
     ========================================================================================= */
 
     #nav-filter {
-      display: none;
+      height: 35px;
     }
 
     /**
@@ -219,7 +219,6 @@
       .main.shifted > #nav-sidebar + .content {
         max-width: 100%;
       }
-
       .main > #nav-sidebar + .content {
         margin-left: 0;
       }
@@ -363,17 +362,37 @@
 
     $(document).ready(function () {
       let caption = $('#nav-sidebar caption')
-      caption.click(function (e) {
-        $('#nav-sidebar tbody').hide()
-        $(this).next().toggle(0);
-      })
 
+      // Open current menu base on url
       caption.each(function () {
         if (window.location.href.includes($(this).data('app-url'))) {
           $(this).next().toggle(0);
         }
       })
 
+      caption.click(function (e) {
+        $('#nav-sidebar tbody').hide()
+        $(this).next().toggle(0);
+      })
+
+
+      // Open all menu when searching
+      $('#nav-filter').keydown(function (e) {
+
+        if($(this).val().trim()) {
+          $('#nav-sidebar tbody').show()
+        } else {
+          caption.each(function () {
+            if (window.location.href.includes($(this).data('app-url'))) {
+              $(this).next().show();
+            } else {
+              $(this).next().hide();
+            }
+          })
+        }
+      })
+
+      // Handle btn bookmark
       $('.btn-bookmark').click(function () {
         let name = prompt('Bookmark name:', '');
         if (name) {
@@ -399,7 +418,7 @@
 {% block footer %}
   <div id="footer">
     {% if request.user.is_superuser %}
-      {#      <span class="btn-bookmark"><i class="icon far fa-bookmark"></i></span>#}
+{#            <span class="btn-bookmark"><i class="icon far fa-bookmark"></i></span>#}
     {% endif %}
   </div>
 {% endblock %}

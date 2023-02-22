@@ -31,19 +31,23 @@
   {% endif %}
 {% endblock %}
 
+{% block content %}
+  {{ block.super }}
+  {% include "admin/custom/change_form_action.html" %}
+{% endblock %}
+
 
 {% block field_sets %}
   {% if request.is_tabbed %}
-  <div id="tabs">
-  <ul>
-    <li><a href="#tabs-main">Main</a></li>
-    {% for inline_admin_formset in inline_admin_formsets %}
-      <li><a
-        href="#tabs-{{ inline_admin_formset.formset.prefix }}">{{ inline_admin_formset.opts.verbose_name|capfirst }}</a>
-      </li>
-    {% endfor %}
-
-  </ul>
+    <div id="tabs">
+    <ul>
+      <li><a href="#tabs-main">Main</a></li>
+      {% for inline_admin_formset in inline_admin_formsets %}
+        <li><a
+          href="#tabs-{{ inline_admin_formset.formset.prefix }}">{{ inline_admin_formset.opts.verbose_name|capfirst }}</a>
+        </li>
+      {% endfor %}
+    </ul>
   {% endif %}
 
 
@@ -63,7 +67,7 @@
     </div>
   {% endfor %}
   {% if request.is_tabbed %}
-  </div> {# Close div#tabs #}
+    </div> {# Close div#tabs #}
   {% endif %}
 
 {% endblock %}

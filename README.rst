@@ -37,7 +37,7 @@ Setting
         ...
     ]
 
-    ADMIN_EXTENDED_SETTINGS = {
+    ADMIN_EXTENDED = {
         'MENU_APP_ORDER': ['user', 'auth'],
         'MENU_MODEL_ORDER': ['User', 'Group'],
         'APP_ICON': {

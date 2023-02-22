@@ -1,0 +1,31 @@
+{% if change_form_actions %}
+    <div class="submit-row">
+      {% for action in change_form_actions %}
+        <form class="action-form"
+              data-prompt-title="{{ action.param_title|default_if_none:'' }}"
+              data-prompt-name="{{ action.param_name|default_if_none:'' }}"
+              action="{{ change_form_action_url }}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action_name" value="{{ action.action_name }}">
+          <input type="hidden" name="object_id" value="{{ object_id }}">
+          <input type="submit" value="{{ action.btn_title }}" style="background-color: {{ action.btn_color|default_if_none:'var(--button-bg)' }}">
+        </form>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <script>
+    $(".action-form").submit(function (eventObj) {
+      let title = $(this).data('prompt-title')
+      let name = $(this).data('prompt-name')
+      if (name) {
+        let value = prompt(title, "");
+        $("<input />").attr("type", "hidden")
+          .attr("name", name)
+          .attr("value", value)
+          .appendTo(this);
+      }
+      return true;
+    });
+
+  </script>
