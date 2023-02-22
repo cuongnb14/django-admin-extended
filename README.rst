@@ -46,6 +46,11 @@ Setting
         },
         'MODEL_ADMIN_TABBED_INLINE': True,
     }
+    
+- MENU_APP_ORDER: change order of app at right sidebar
+- MENU_MODEL_ORDER: change order of model at right sidebar
+- APP_ICON: custom icon of menu app use fontawesome v5 (https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free)
+- MODEL_ADMIN_TABBED_INLINE: use tab for model inline. Default is True
 
 Usage
 =======
