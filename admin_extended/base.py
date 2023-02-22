@@ -23,6 +23,7 @@ class ChangeFormAction:
 
 class ChangeFormActionAdminModelMixin:
     change_form_action_classes = []
+    change_form_object_tools = []
 
     def get_urls(self):
         urls = super().get_urls()
@@ -35,6 +36,9 @@ class ChangeFormActionAdminModelMixin:
 
     def get_change_form_actions(self, request, object_id):
         return [x() for x in self.change_form_action_classes]
+
+    def get_change_form_object_tools(self, request, object_id):
+        return self.change_form_object_tools
 
     def change_from_action_view(self, request):
         if request.method == 'POST':
@@ -58,6 +62,9 @@ class ChangeFormActionAdminModelMixin:
             extra_context = extra_context if extra_context else {}
             extra_context['change_form_actions'] = change_form_actions
             extra_context['change_form_action_url'] = reverse(action_url_name)
+
+            change_form_object_tools = self.get_change_form_object_tools(request, object_id)
+            extra_context['change_form_object_tools'] = change_form_object_tools
 
         return super()._changeform_view(request, object_id, form_url, extra_context)
 
@@ -83,7 +90,7 @@ class ExtendedAdminModel(ChangeFormActionAdminModelMixin, admin.ModelAdmin):
 
     tab_inline = ADMIN_EXTENDED_SETTINGS['MODEL_ADMIN_TABBED_INLINE']
     delete_without_confirm = False
-    raw_id_fields_as_default = True
+    raw_id_fields_as_default = ADMIN_EXTENDED_SETTINGS['RAW_ID_FIELDS_AS_DEFAULT']
 
     def __init__(self, model, admin_site):
         if self.raw_id_fields_as_default:

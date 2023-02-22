@@ -5,6 +5,7 @@ ADMIN_EXTENDED_SETTINGS = {
     'MENU_MODEL_ORDER': [],
     'APP_ICON': {},
     'MODEL_ADMIN_TABBED_INLINE': True,
+    'RAW_ID_FIELDS_AS_DEFAULT': False,
 }
 
 
