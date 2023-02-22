@@ -56,7 +56,7 @@ Setting
 
 
 
-Usage
+Basic Usage
 =======
 
 .. code:: python
@@ -95,6 +95,33 @@ Usage
 - **super_admin_only_fields** (list, default []) Only show these fields if user login is superuser
 - **ext_read_only_fields** (list, default []) Only show these fields in view mode. Default custom fields start with `display_` was mark as read only so you don't need add these fields to ext_read_only_fields
 - **ext_write_only_fields** (list, default []) Only show these fields in edit mode
+
+
+Advand
+=======
+Add custom object tools item in change form
+------
+
+Suppose you have a custom admin page with url name 'admin:do_some_thing', you can add link of this page to object tools
+
+
+.. code:: python
+
+    class CustomerAdmin(ExtendedAdminModel):
+        def get_change_form_object_tools(self, request, object_id):
+            return [{
+                'icon': 'fas fa-edit',
+                'url': reverse('admin:do_some_thing', args=[object_id]),
+                'title': 'Custom action',
+            }]
+            return []
+
+Result
+
+.. image:: screenshots/demo-custom-object-tools.png?raw=true
+
+
+
 
 
 Screenshots
