@@ -120,6 +120,14 @@ Result
 
 .. image:: screenshots/demo-custom-object-tools.png?raw=true
 
+Add bookmark
+------
+- Go to page you want add to bookmark
+- Click bookmark button add bottom right
+- Choose name of bookmark
+- You also can manage book mark (add, delete, change order, ...) in bookmark model
+
+.. image:: screenshots/demo-bookmark.png?raw=true
 
 
 
