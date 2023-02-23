@@ -192,10 +192,6 @@
       background-color: var(--secondary);
     }
 
-    .main.shifted .toggle-nav-sidebar {
-    {#left: 233px;#}
-    }
-
     .main.shifted > #nav-sidebar {
       left: 0;
     }
@@ -417,8 +413,8 @@
 
 {% block footer %}
   <div id="footer">
-    {% if request.user.is_superuser %}
-{#            <span class="btn-bookmark"><i class="icon far fa-bookmark"></i></span>#}
+    {% if perms.admin_extended.can_add_bookmark %}
+      <span class="btn-bookmark"><i class="icon far fa-bookmark"></i></span>
     {% endif %}
   </div>
 {% endblock %}
