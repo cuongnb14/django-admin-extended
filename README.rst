@@ -129,7 +129,21 @@ Add bookmark
 
 .. image:: screenshots/demo-bookmark.png?raw=true
 
+Automatically Register All Models In Django Admin
+----
+Add this code at **end of admin.py file** of **lastest install app (INSTALLED_APPS setting)**
 
+.. code:: python
+    
+    from admin_extended.utils import auto_register_model_admin
+
+    auto_register_model_admin()
+
+**auto_register_model_admin(default_model_admin_class=DefaultModelAdmin, ignore_models=[]):**
+This function will automatic register admin for all unregistered model 
+
+- default_model_admin_class: DefaultModelAdmin will list all fields of model in change list page, you can custom your model admin and pass to this param
+- ignore_models: list model you don't want auto register. specify by <app_label>.<model_name>. Eg: 'users.user'
 
 
 Screenshots
