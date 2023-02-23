@@ -48,8 +48,8 @@ Setting
         'RAW_ID_FIELDS_AS_DEFAULT': False,
     }
     
-- MENU_APP_ORDER: change order of app at right sidebar
-- MENU_MODEL_ORDER: change order of model at right sidebar
+- MENU_APP_ORDER: change order of app at left sidebar
+- MENU_MODEL_ORDER: change order of model at left sidebar
 - APP_ICON: custom icon of menu app use fontawesome v5 (https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free)
 - MODEL_ADMIN_TABBED_INLINE: use tab for model inline. Default is True
 - RAW_ID_FIELDS_AS_DEFAULT: use raw_id_fields as default for ForeginKey instead of select box
