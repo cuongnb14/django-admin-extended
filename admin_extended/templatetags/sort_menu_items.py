@@ -21,12 +21,7 @@ def sort_apps(apps):
         else:
             app['icon'] = 'fas fa-layer-group'
 
-    apps.sort(
-        key=lambda x:
-        MENU_APP_ORDER.index(x['app_label'])
-        if x['app_label'] in MENU_APP_ORDER
-        else max_index
-    )
+    apps.sort(key=lambda x: MENU_APP_ORDER.index(x['app_label']) if x['app_label'] in MENU_APP_ORDER else max_index)
 
     bookmarks = Bookmark.objects.filter(is_active=True).order_by('order')
     bookmarks_model = []
@@ -59,9 +54,6 @@ def sort_apps(apps):
 def sort_models(models):
     max_index = len(MENU_MODEL_ORDER)
     models.sort(
-        key=lambda x:
-        MENU_MODEL_ORDER.index(x['object_name'])
-        if x['object_name'] in MENU_MODEL_ORDER
-        else max_index
+        key=lambda x: MENU_MODEL_ORDER.index(x['object_name']) if x['object_name'] in MENU_MODEL_ORDER else max_index
     )
     return models

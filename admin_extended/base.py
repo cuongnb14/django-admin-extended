@@ -7,6 +7,7 @@ from django.urls import path
 from .mixins import UIUtilsMixin, ChangeFormActionAdminModelMixin
 from .settings import ADMIN_EXTENDED_SETTINGS
 
+
 def has_search_fields(field):
     model_admin = admin.site._registry.get(field.related_model)
     return model_admin and model_admin.search_fields
@@ -41,8 +42,12 @@ class ExtendedAdminModel(ChangeFormActionAdminModelMixin, UIUtilsMixin, admin.Mo
         super().__init__(model, admin_site)
 
     def get_raw_id_fields(self, model):
-        autocomplete_fields = [field.name for field in model._meta.fields if field.is_relation and has_search_fields(field)]
-        raw_id_fields = [field.name for field in model._meta.fields if field.is_relation and not has_search_fields(field)]
+        autocomplete_fields = [
+            field.name for field in model._meta.fields if field.is_relation and has_search_fields(field)
+        ]
+        raw_id_fields = [
+            field.name for field in model._meta.fields if field.is_relation and not has_search_fields(field)
+        ]
         return autocomplete_fields, raw_id_fields
 
     @admin.action(description='Delete selected without confirm')

@@ -12,7 +12,7 @@ setup(
     version='2.0',
     packages=find_packages(),
     include_package_data=True,
-    license='MIT License', 
+    license='MIT License',
     description='Enhance UI/UX of django admin',
     long_description=README,
     url='https://github.com/cuongnb14/django-admin-extended',
@@ -33,5 +33,5 @@ setup(
     ],
     install_requires=[
         'fontawesomefree==5.15.4',
-    ]
+    ],
 )

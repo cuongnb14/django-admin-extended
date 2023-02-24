@@ -3,6 +3,7 @@ from django.utils.html import format_html
 from django.shortcuts import redirect
 from django.urls import path, reverse
 
+
 class UIUtilsMixin:
     def get_html_img_tag(self, url, height='200px'):
         if url:
@@ -11,10 +12,7 @@ class UIUtilsMixin:
 
     def get_html_a_tag(self, url, title=None, target='_blank', html_class=''):
         title = title if title else url
-        return format_html(
-            '<a href="{}" class="{}" target="{}">{}</a>',
-            url, html_class, target, title
-        )
+        return format_html('<a href="{}" class="{}" target="{}">{}</a>', url, html_class, target, title)
 
     def get_html_text_color(self, title, color):
         return format_html('<b style="color:{};">{}</b>', color, title)
@@ -80,4 +78,3 @@ class ChangeFormActionAdminModelMixin:
             extra_context['change_form_object_tools'] = change_form_object_tools
 
         return super()._changeform_view(request, object_id, form_url, extra_context)
-
