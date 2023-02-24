@@ -1,0 +1,30 @@
+{% if change_form_submit_row %}
+    <div class="submit-row">
+      {% for action in change_form_submit_row %}
+        <form class="action-form"
+              data-prompt-title="{{ action.post_param_title|default_if_none:'' }}"
+              action="{{ action.url }}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="{{ action.description }}" style="background-color: {{ action.btn_color|default_if_none:'var(--button-bg)' }}">
+        </form>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <script>
+    $(".action-form").submit(function (eventObj) {
+      let title = $(this).data('prompt-title')
+      if (title) {
+        let value = prompt(title, "");
+        if(!value) {
+          return false;
+        }
+        $("<input />").attr("type", "hidden")
+          .attr("name", 'param')
+          .attr("value", value)
+          .appendTo(this);
+      }
+      return true;
+    });
+
+  </script>

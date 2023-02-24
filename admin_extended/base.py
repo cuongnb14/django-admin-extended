@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib import admin
 from django.shortcuts import render
 from django.urls import path
-from .mixins import UIUtilsMixin, ChangeFormActionAdminModelMixin, ObjectToolModelAdminMixin
+from .mixins import UIUtilsMixin, ObjectToolModelAdminMixin
 from .settings import ADMIN_EXTENDED_SETTINGS
 
 
