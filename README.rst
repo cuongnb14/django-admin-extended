@@ -52,7 +52,7 @@ Setting
 - MENU_MODEL_ORDER: change order of model at left sidebar
 - APP_ICON: custom icon of menu app use fontawesome v5 (https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free)
 - MODEL_ADMIN_TABBED_INLINE: use tab for model inline. Default is True
-- RAW_ID_FIELDS_AS_DEFAULT: use raw_id_fields as default for ForeginKey instead of select box
+- RAW_ID_FIELDS_AS_DEFAULT: use raw_id_fields (or autocomplete_fields if related model have search_fields) as default for related fields instead of select box
 
 
 
@@ -89,7 +89,7 @@ Basic Usage
 
 **ExtendedAdminModel options**
 
-- **raw_id_fields_as_default** (boolean, default True) Use raw_id_fields as default for ForeginKey instead of select box (optimize performance for large database)
+- **raw_id_fields_as_default** (boolean, default True) Use raw_id_fields (or autocomplete_fields if related model have search_fields) as default for ForeginKey instead of select box (optimize performance for large database)
 - **delete_without_confirm** (boolean, default False) Ignore confirm page for delete action
 - **tab_inline** (boolean, default from setting) Use tab for model inline (override value in setting)
 - **super_admin_only_fields** (list, default []) Only show these fields if user login is superuser
