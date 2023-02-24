@@ -6,7 +6,6 @@ END_OF_LIST_DISPLAY = ['created_at', 'created', 'modified_at', 'modified']
 
 
 def is_ignore_list_display_field(field):
-    print(type(field).__name__)
     return field.name == 'id' or type(field).__name__ == 'TextField'
 
 
