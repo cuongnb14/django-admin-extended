@@ -1,0 +1,8 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+    {% for item in change_list_object_tools %}
+        <li><a href="{{ item.url }}"><i class="{{ item.icon }}"></i> {{ item.description }}</a></li>
+    {% endfor %}
+    {{ block.super }}
+{% endblock %}

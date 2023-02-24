@@ -48,7 +48,7 @@ class ChangeFormActionAdminModelMixin:
     def get_change_form_actions(self, request, object_id):
         return [x() for x in self.change_form_action_classes]
 
-    def get_change_form_object_tools(self, request, object_id):
+    def get_change_form_object_tools1(self, request, object_id):
         return self.change_form_object_tools
 
     def change_from_action_view(self, request):
@@ -74,7 +74,93 @@ class ChangeFormActionAdminModelMixin:
             extra_context['change_form_actions'] = change_form_actions
             extra_context['change_form_action_url'] = reverse(action_url_name)
 
-            change_form_object_tools = self.get_change_form_object_tools(request, object_id)
+            change_form_object_tools = self.get_change_form_object_tools1(request, object_id)
             extra_context['change_form_object_tools'] = change_form_object_tools
 
         return super()._changeform_view(request, object_id, form_url, extra_context)
+
+class ObjectToolModelAdminMixin:
+    change_form_object_tools = []
+    change_list_object_tools = []
+
+    def get_urls(self):
+        urls = super().get_urls()
+
+        base_url_name = "%s_%s" % (self.model._meta.app_label, self.model._meta.model_name)
+        custom_urls = [
+            path(
+                '<int:object_id>/object-tools/<str:name>', 
+                self.admin_site.admin_view(self.change_form_object_tool_view),
+                name=f'{base_url_name}_change_form_object_tool'
+                ),
+            path(
+                'object-tools/<str:name>', 
+                self.admin_site.admin_view(self.change_list_object_tool_view),
+                name=f'{base_url_name}_change_list_object_tool'
+                ),
+        ]
+        return custom_urls + urls
+
+    def get_change_form_object_tools(self, request):
+        object_tools = []
+        for change_form_object_tool in self.change_form_object_tools:
+            object_tool = getattr(self, change_form_object_tool)
+            object_tools.append(object_tool)
+        return {object_tool.name: object_tool for object_tool in object_tools}
+
+
+    def change_form_object_tool_view(self, request, object_id, name):
+        change_form_object_tools = self.get_change_form_object_tools(request)
+        return change_form_object_tools[name](request, object_id)
+
+
+    def _get_render_change_form_object_tools(self, request, object_id):
+        base_url_name = "%s_%s" % (self.model._meta.app_label, self.model._meta.model_name)
+        change_form_object_tools = self.get_change_form_object_tools(request)
+        result = []
+        for name, object_tool in change_form_object_tools.items():
+            result.append({
+                'icon': object_tool.icon,
+                'url': reverse(f'admin:{base_url_name}_change_form_object_tool', args=[object_id, name]),
+                'description': object_tool.description,
+            })
+        return result
+
+
+    def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
+        if object_id:
+            extra_context = extra_context if extra_context else {}
+            extra_context['change_form_object_tools'] = self._get_render_change_form_object_tools(request, object_id)
+
+        return super().changeform_view(request, object_id, form_url, extra_context)
+    
+
+    def get_change_list_object_tools(self, request):
+        object_tools = []
+        for change_list_object_tool in self.change_list_object_tools:
+            object_tool = getattr(self, change_list_object_tool)
+            object_tools.append(object_tool)
+        return {object_tool.name: object_tool for object_tool in object_tools}
+
+
+    def change_list_object_tool_view(self, request, name):
+        change_list_object_tools = self.get_change_list_object_tools(request)
+        return change_list_object_tools[name](request)
+
+    def _get_render_change_list_object_tools(self, request):
+        base_url_name = "%s_%s" % (self.model._meta.app_label, self.model._meta.model_name)
+        change_list_object_tools = self.get_change_list_object_tools(request)
+        result = []
+        for name, object_tool in change_list_object_tools.items():
+            result.append({
+                'icon': object_tool.icon,
+                'url': reverse(f'admin:{base_url_name}_change_list_object_tool', args=[name]),
+                'description': object_tool.description,
+            })
+        return result
+    
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context if extra_context else {}
+        extra_context['change_list_object_tools'] = self._get_render_change_list_object_tools(request)
+
+        return super().changelist_view(request, extra_context)

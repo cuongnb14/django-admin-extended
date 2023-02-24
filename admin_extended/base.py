@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib import admin
 from django.shortcuts import render
 from django.urls import path
-from .mixins import UIUtilsMixin, ChangeFormActionAdminModelMixin
+from .mixins import UIUtilsMixin, ChangeFormActionAdminModelMixin, ObjectToolModelAdminMixin
 from .settings import ADMIN_EXTENDED_SETTINGS
 
 
@@ -13,7 +13,7 @@ def has_search_fields(field):
     return model_admin and model_admin.search_fields
 
 
-class ExtendedAdminModel(ChangeFormActionAdminModelMixin, UIUtilsMixin, admin.ModelAdmin):
+class ExtendedAdminModel(ObjectToolModelAdminMixin, UIUtilsMixin, admin.ModelAdmin):
     """
     Extend base model admin: tabbable inline model, separate view, edit model,...
 
