@@ -99,26 +99,66 @@ Basic Usage
 
 Advand
 =======
-Add custom object tools item in change form
+Add custom object tools item in change list or change form
 ------
-
-Suppose you have a custom admin page with url name 'admin:do_some_thing', you can add link of this page to object tools
-
 
 .. code:: python
 
+    from admin_extended.decorators import object_tool
+    from admin_extended.base import ExtendedAdminModel
+
+    @admin.register(models.Customer)
     class CustomerAdmin(ExtendedAdminModel):
-        def get_change_form_object_tools(self, request, object_id):
-            return [{
-                'icon': 'fas fa-edit',
-                'url': reverse('admin:do_some_thing', args=[object_id]),
-                'title': 'Custom action',
-            }]
-            return []
+        change_form_object_tools = ['demo_change_form_action']
+        change_list_object_tools = ['demo_change_list_action']
 
-Result
+        @object_tool(icon='fas fa-edit', name='do_something', description='Do something', http_method='post', post_param_title='Name')
+        def demo_change_form_action(self, request, object_id):
+            customer = models.Customer.objects.get(pk=object_id)
+            context = {
+                **admin.site.each_context(request),
+                'title': f'Update customer {customer.name}',
+            }
+            if request.method == 'POST':
+                form = CustomForm(request.POST)
+                messages.success(request, request.POST.get('data'))
+                if form.is_valid():
+                    print(form.cleaned_data)
+                    return redirect(reverse('admin:shop_customer_change', args=[object_id]))
+            context["form"] = CustomForm()
+            return render(request, 'admin/custom/custom_form.html', context)
+        
+        @object_tool(icon='fas fa-edit', name='demo_change_list_action', description='Do something')
+        def demo_change_list_action(self, request):
+            context = {
+                **admin.site.each_context(request),
+                'title': f'Import customer',
+            }
+            if request.method == 'POST':
+                form = CustomForm(request.POST)
+                if form.is_valid():
+                    print(form.cleaned_data)
+                    return redirect(reverse('admin:shop_customer_changelist'))
+            context["form"] = CustomForm()
+            return render(request, 'admin/custom/custom_form.html', context)
 
+**Result**
+
+- Change list object tool
+.. image:: screenshots/demo-change-list-object-tools.png?raw=true
+
+- Change form object tool
+.. image:: screenshots/demo-change-form-object-tools.png?raw=true
 .. image:: screenshots/demo-custom-object-tools.png?raw=true
+
+
+**object_tool(function=None, *, icon=None, name=None, description=None, http_method='get', post_param_title=None)**
+
+- icon: icon of button
+- name: name of object tool (must unique)
+- description: label of button
+- http_method: Only affect in change form page. with http_method is post, you can pass one param when submit object tool.
+- post_param_title: Only affect when http_method is post. Title of param you want to pass.
 
 Add bookmark
 ------
@@ -142,7 +182,7 @@ Add this code at **end of admin.py file** of **lastest install app (INSTALLED_AP
 **auto_register_model_admin(default_model_admin_class=DefaultModelAdmin, ignore_models=[]):**
 This function will automatic register admin for all unregistered model 
 
-- default_model_admin_class: DefaultModelAdmin will list all fields of model in change list page, you can custom your model admin and pass to this param
+- default_model_admin_class: DefaultModelAdmin will list all fields (exclude TextField) of model in change list page, you can custom your model admin and pass to this param
 - ignore_models: list model you don't want auto register. specify by <app_label>.<model_name>. Eg: 'users.user'
 
 
