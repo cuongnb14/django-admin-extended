@@ -18,10 +18,12 @@
     <div class="module filtered" id="changelist">
       <div class="changelist-form-container">
         <div class="results">
-          <table id="result_list">
+        {% for table in tables %}
+          <h2>{{ table.header }}</h2>
+          <table class="result_list" style="margin-bottom: 40px">
             <thead>
             <tr>
-              {% for title in data.title %}
+              {% for title in table.table_titles %}
                 <th scope="col" class="">
                   <div class="text"><span>{{ title }}</span></div>
                   <div class="clear"></div>
@@ -30,7 +32,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for row in data.rows %}
+            {% for row in table.table_rows %}
               <tr>
                 {% for item in row %}
                   <td class="">{{ item }}</td>
@@ -39,6 +41,7 @@
             {% endfor %}
             </tbody>
           </table>
+        {% endfor %}
         </div>
       </div>
 

@@ -1,4 +1,5 @@
 import copy
+from dataclasses import dataclass
 
 from django.contrib import messages
 from django.contrib import admin
@@ -11,6 +12,15 @@ from .settings import ADMIN_EXTENDED_SETTINGS
 def has_search_fields(field):
     model_admin = admin.site._registry.get(field.related_model)
     return model_admin and model_admin.search_fields
+
+@dataclass
+class TableData:
+    header: str
+    table_titles = []
+    table_rows = []
+
+    def add_rows(self, row: list):
+        self.table_rows.append(row)
 
 
 class ExtendedAdminModel(ObjectToolModelAdminMixin, UIUtilsMixin, admin.ModelAdmin):
@@ -146,25 +156,16 @@ class CustomTableAdminPage(admin.ModelAdmin):
             path('', self.custom_view, name=view_name),
         ]
 
-    def get_data(self):
+    def get_table_data(self):
         """
-        return dict of list. Eg:
-        results = {
-            'title': ['A', 'B', 'C'],
-            'rows': [
-                [12, 12, 14],
-                [12, 12, 14],
-                [12, 12, 14],
-                [12, 12, 14],
-            ],
-        }
+        return list of TableData
         """
         raise NotImplementedError()
 
     def custom_view(self, request, *args, **kwargs):
         context = {
             **admin.site.each_context(request),
-            'data': self.get_data(),
+            'tables': self.get_table_data(),
         }
 
         return render(request, 'admin/custom/custom_table_page.html', context)
