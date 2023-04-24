@@ -5,8 +5,10 @@ from django.urls import path, reverse
 
 
 class UIUtilsMixin:
-    def get_html_img_tag(self, url, height='200px'):
+    def get_html_img_tag(self, url, href=None, height='200px'):
         if url:
+            if href:
+                return format_html('<a href="{}" target="_blank"><img height="{}" src="{}" /></a>', href, height, url)
             return format_html('<img height="{}" src="{}" />', height, url)
         return self.get_empty_value_display()
 
