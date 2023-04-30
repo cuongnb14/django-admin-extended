@@ -19,7 +19,7 @@
 
 {% block content %}
     <h1>{{ context }}</h1>
-    <form action="" method="POST">
+    <form {% if form.is_multipart %}enctype="multipart/form-data" {% endif %}{% if form_url %}action="{{ form_url }}" {% endif %} method="POST">
         {% csrf_token %}
 
         <fieldset class="module aligned">
