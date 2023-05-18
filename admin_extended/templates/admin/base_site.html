@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load i18n static %}
+{% load settings_value %}
 
 {% block extrahead %}
   <link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
@@ -11,6 +12,10 @@
 
     :root {
       --breadcrumbs-bg: #4a8dae;
+    }
+
+    #header {
+      background: {% settings_value "ADMIN_EXTENDED.ADMIN_HEADER_COLOR" %};
     }
 
     .btn-bookmark {
