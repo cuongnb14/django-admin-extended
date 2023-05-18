@@ -6,7 +6,6 @@ ADMIN_EXTENDED_SETTINGS = {
     'APP_ICON': {},
     'MODEL_ADMIN_TABBED_INLINE': True,
     'RAW_ID_FIELDS_AS_DEFAULT': False,
-    'ADMIN_HEADER_COLOR': 'var(--header-bg)',
 }
 
 
