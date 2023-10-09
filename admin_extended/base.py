@@ -34,9 +34,10 @@ class ExtendedAdminModel(ObjectToolModelAdminMixin, UIUtilsMixin, admin.ModelAdm
         :tab_inline tab inline or not
     """
 
-    TEXT_COLOR_SUCCESS = 'green'
-    TEXT_COLOR_ERROR = 'red'
-    TEXT_COLOR_WARNING = 'orange'
+    TEXT_COLOR_SUCCESS = '#3d9402'
+    TEXT_COLOR_ERROR = '#f20707'
+    TEXT_COLOR_WARNING = '#ffad00'
+    TEXT_COLOR_DEFAULT = '#818181'
 
     ext_read_only_fields = []
     ext_write_only_fields = []
