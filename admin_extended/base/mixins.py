@@ -1,6 +1,5 @@
 import json
 from django.utils.html import format_html
-from django.shortcuts import redirect
 from django.urls import path, reverse
 
 
@@ -122,3 +121,54 @@ class ObjectToolModelAdminMixin:
         extra_context['change_list_object_tools'] = self._get_render_change_list_object_tools(request)
 
         return super().changelist_view(request, extra_context)
+
+
+class DispayLinkAdapter:
+
+    def _foreign_key_link(self, field_name, description):
+        """
+        Converts a foreign key value into clickable links.
+
+        If field_name is 'parent', link text will be str(obj.parent)
+        Link will be admin url for the admin url for obj.parent.id:change
+        """
+
+        def _display_fn(obj):
+            linked_obj = getattr(obj, field_name)
+            if linked_obj is None:
+                return '-'
+            app_label = linked_obj._meta.app_label
+            model_name = linked_obj._meta.model_name
+            view_name = f'admin:{app_label}_{model_name}_change'
+            link_url = reverse(view_name, args=[linked_obj.pk])
+            return format_html('<a href="{}">{}</a>', link_url, linked_obj)
+
+        _display_fn.short_description = description
+        return _display_fn
+    
+
+    def convert_display_fields(self, list_display):
+        field_mapping = {}
+        for field in self.model._meta.fields:
+
+            field_mapping[field.attname] = {
+                'class_name': field.__class__.__name__,
+                'verbose_name': field.verbose_name,
+            }
+
+            if field.__class__.__name__ == 'ForeignKey':
+                field_mapping[field.attname[:-3]] = field_mapping[field.attname]  # Eg `user_id` -> `user` key have same info
+
+        results = [list_display[0]]
+        for field_name in list_display[1:]:  # ignore first field
+            field_info = field_mapping.get(field_name)
+            if field_info and field_info['class_name'] == 'ForeignKey':
+                results.append(self._foreign_key_link(field_name, field_info['verbose_name']))
+            else:
+                results.append(field_name)
+
+        return results
+
+    def get_list_display(self, request):
+        list_display = super().get_list_display(request)
+        return self.convert_display_fields(list_display)
