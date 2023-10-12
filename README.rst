@@ -15,7 +15,9 @@ Enhance UI/UX of django admin
 - Read only mode
 - Bookmark menu
 - Ignore confirm delete page option
+- Add link for foregin key in change list page
 - And more utils functions
+
 
 Install
 =======
@@ -95,6 +97,7 @@ Basic Usage
 - **super_admin_only_fields** (list, default []) Only show these fields if user login is superuser
 - **ext_read_only_fields** (list, default []) Only show these fields in view mode. Default custom fields start with `display_` was mark as read only so you don't need add these fields to ext_read_only_fields
 - **ext_write_only_fields** (list, default []) Only show these fields in edit mode
+- **enable_foreign_link** (boolean, default True) Add link for foregin key in change list page
 
 
 Advand

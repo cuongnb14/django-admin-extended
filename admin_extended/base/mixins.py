@@ -124,6 +124,7 @@ class ObjectToolModelAdminMixin:
 
 
 class DispayLinkAdapter:
+    enable_foreign_link = True
 
     def _foreign_key_link(self, field_name, description):
         """
@@ -157,12 +158,12 @@ class DispayLinkAdapter:
             }
 
             if field.__class__.__name__ == 'ForeignKey':
-                field_mapping[field.attname[:-3]] = field_mapping[field.attname]  # Eg `user_id` -> `user` key have same info
+                field_mapping[field.attname[:-3]] = field_mapping[field.attname]  # Eg make `user_id` -> `user` key have same info
 
         results = [list_display[0]]
         for field_name in list_display[1:]:  # ignore first field
             field_info = field_mapping.get(field_name)
-            if field_info and field_info['class_name'] == 'ForeignKey':
+            if field_info and field_info['class_name'] == 'ForeignKey' and self.enable_foreign_link:
                 results.append(self._foreign_key_link(field_name, field_info['verbose_name']))
             else:
                 results.append(field_name)
