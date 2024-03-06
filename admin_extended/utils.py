@@ -5,22 +5,28 @@ from django.apps import apps
 END_OF_LIST_DISPLAY = ['created_at', 'created', 'modified_at', 'modified']
 
 
-def is_ignore_list_display_field(field):
-    return field.name == 'id' or type(field).__name__ == 'TextField'
-
-
 class DefaultModelAdmin(ExtendedAdminModel):
-    def __init__(self, model, admin_site):
-        list_display = ['__str__'] + [
-            field.name for field in model._meta.fields if not is_ignore_list_display_field(field)
-        ]
-        for item in END_OF_LIST_DISPLAY:
-            if item in list_display:
-                list_display.append(list_display.pop(list_display.index(item)))
-        self.list_display = list_display
 
-        self.list_filter = [field.name for field in model._meta.fields if field.choices]
+    list_display_ignore_field_type = ['TextField', 'JsonField']
+
+    def __init__(self, model, admin_site):
+
+        if not self.list_display == ("__str__",):
+            list_display = ['__str__'] + [
+                field.name for field in model._meta.fields if not self.is_ignore_list_display_field(field)
+            ]
+            for item in END_OF_LIST_DISPLAY:
+                if item in list_display:
+                    list_display.append(list_display.pop(list_display.index(item)))
+            self.list_display = list_display
+
+        if not self.list_filter:
+            self.list_filter = [field.name for field in model._meta.fields if field.choices]
         super().__init__(model, admin_site)
+
+    def _is_ignore_list_display_field(self, field):
+        return field.name == 'id' or type(field).__name__ in self.list_display_ignore_field_type
+
 
     def get_queryset(self, request):
         # Add related fields to select_related
