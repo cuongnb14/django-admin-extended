@@ -11,7 +11,7 @@
   <style>
 
     div.breadcrumbs {
-      background-color: #5692b0;
+      background-color: var(--hairline-color);
     }
 
     #header {
@@ -60,6 +60,10 @@
       right: 10px;
       top: 8px;
       background: var(--hairline-color);
+    }
+
+    #changelist-filter #changelist-filter-extra-actions {
+      margin-bottom: 0px;
     }
 
     #changelist-filter details > summary {
@@ -143,7 +147,8 @@
 
     #nav-filter {
       height: 35px;
-      margin: 0;
+      margin-top: 10px;
+      border-radius: 3px;
     }
 
     /**
@@ -196,10 +201,10 @@
     }
 
     #nav-sidebar {
-      background-color: var(--primary);
       flex: 0 0 256px;
       border-right: 0;
       border-top: 0;
+      background-color: var(--header-bg);
     }
 
     .main > #nav-sidebar + .content {
@@ -232,9 +237,16 @@
       padding-left: 10px;
     }
 
-
+    #nav-sidebar .current-app caption{
+      background-color: var(--primary);
+    }
     #nav-sidebar tbody tr:hover {
-      background-color: var(--selected-row);
+      background-color: var(--primary);
+    }
+
+    #nav-sidebar tbody tr:hover a {
+      font-weight: bold;
+      color: var(--primary-fg);
     }
 
     #nav-sidebar .module {
@@ -257,12 +269,21 @@
     }
 
     #nav-sidebar .module caption:hover {
-      background-color: var(--secondary);
+      background-color: var(--primary);
       cursor: pointer;
     }
 
+    #nav-sidebar .current-model {
+      background-color: var(--primary)
+    }
+
+    #nav-sidebar .current-model a {
+      font-weight: bold;
+      color: var(--primary-fg);
+    }
+
     #nav-sidebar tr {
-      background-color: var(--hairline-color);
+      background-color: var(--primary);
     }
 
     #nav-sidebar tr th a {
@@ -290,7 +311,19 @@
       border-color: var(--primary) !important;
     }
 
+    html[data-theme="dark"] {
+      --primary: #4B49AC;
+      --secondary: #191B20;
+      --selected-row: #34335f;
+    }
+
     @media (prefers-color-scheme: dark) {
+
+      :root {
+        --primary: #4B49AC;
+        --secondary: #191B20;
+        --selected-row: #34335f;
+      }
 
       .ui-widget-content {
         color: var(--body-fg) !important;
