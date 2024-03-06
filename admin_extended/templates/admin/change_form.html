@@ -42,7 +42,7 @@
   {% if request.is_tabbed %}
     <div id="tabs">
     <ul>
-      <li><a href="#tabs-main">Main</a></li>
+      <li><a href="#tabs-main">{{ opts.verbose_name|capfirst }}</a></li>
       {% for inline_admin_formset in inline_admin_formsets %}
         <li><a
           href="#tabs-{{ inline_admin_formset.formset.prefix }}">{{ inline_admin_formset.opts.verbose_name|capfirst }}</a>
