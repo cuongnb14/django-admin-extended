@@ -3,10 +3,14 @@ div.breadcrumbs {
 }
 
 html[data-theme="light"] {
+    #nav-sidebar tr a{
+        color: #f8f8f8
+    }
+
+
     div.breadcrumbs {
         background-color: var(--primary);
-    }
-    
+    }    
 }
 
 
