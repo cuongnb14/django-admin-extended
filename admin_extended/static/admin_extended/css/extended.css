@@ -235,18 +235,6 @@ table#result_list .field-id {
     padding-left: 10px;
 }
 
-/* #nav-sidebar .current-app caption {
-    background-color: var(--primary);
-}
-
-#nav-sidebar tbody tr:hover {
-    background-color: var(--primary);
-}
-
-#nav-sidebar tbody tr:hover a {
-    font-weight: bold;
-    color: var(--primary-fg);
-} */
 
 #nav-sidebar .module {
     margin-bottom: 0
@@ -272,14 +260,6 @@ table#result_list .field-id {
     cursor: pointer;
 }
 
-/* #nav-sidebar .current-model, #nav-sidebar .current-app {
-    background-color: var(--primary)
-} */
-
-#nav-sidebar .current-model a {
-    font-weight: bold;
-    color: var(--primary-fg);
-}
 
 #nav-sidebar tr {
     background-color: var(--header-bg);
