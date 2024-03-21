@@ -1,8 +1,4 @@
-div.breadcrumbs {
-    background-color: var(--hairline-color);
-}
-
-html[data-theme="light"] {
+/* html[data-theme="light"] {
     #nav-sidebar tr a{
         color: #f8f8f8
     }
@@ -11,19 +7,24 @@ html[data-theme="light"] {
     div.breadcrumbs {
         background-color: var(--primary);
     }    
-}
+} */
 
 
 html[data-theme="dark"] {
-    --primary: #4B49AC;
+    /* --primary: #4B49AC;
     --secondary: #191B20;
-    --selected-row: #34335f;
+    --selected-row: #34335f; */
+
+    /* --body-bg: #1e1e2f; */
 }
+
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --primary: #4B49AC;
+        /* --primary: #0390e8;
         --secondary: #191B20;
-        --selected-row: #34335f;
+        --selected-row: #34335f; */
+
+        /* --body-bg: #1e1e2f; */
     }
 }

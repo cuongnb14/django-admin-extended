@@ -136,6 +136,16 @@ table#result_list .field-id {
     height: 35px;
     margin-top: 10px;
     border-radius: 3px;
+    background-color: var(--primary);
+    border: none;
+}
+
+#nav-filter:focus {
+    outline: none;
+}
+
+#nav-filter.no-results {
+    background: var(--primary);
 }
 
 /**
