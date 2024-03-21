@@ -136,7 +136,7 @@ table#result_list .field-id {
     height: 35px;
     margin-top: 10px;
     border-radius: 3px;
-    background-color: var(--primary);
+    /* background-color: var(--primary); */
     border: none;
 }
 
@@ -272,9 +272,9 @@ table#result_list .field-id {
     cursor: pointer;
 }
 
-#nav-sidebar .current-model, #nav-sidebar .current-app {
+/* #nav-sidebar .current-model, #nav-sidebar .current-app {
     background-color: var(--primary)
-}
+} */
 
 #nav-sidebar .current-model a {
     font-weight: bold;

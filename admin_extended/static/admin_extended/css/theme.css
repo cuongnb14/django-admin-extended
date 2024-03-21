@@ -11,20 +11,16 @@
 
 
 html[data-theme="dark"] {
-    /* --primary: #4B49AC;
-    --secondary: #191B20;
-    --selected-row: #34335f; */
-
-    /* --body-bg: #1e1e2f; */
+    --header-bg: #252525;
+    --breadcrumbs-bg: #3a4043;
+    --selected-row: #3a4043;
 }
 
 
 @media (prefers-color-scheme: dark) {
     :root {
-        /* --primary: #0390e8;
-        --secondary: #191B20;
-        --selected-row: #34335f; */
-
-        /* --body-bg: #1e1e2f; */
+        --header-bg: #252525;
+        --breadcrumbs-bg: #3a4043;
+        --selected-row: #3a4043;
     }
 }
