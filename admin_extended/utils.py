@@ -11,9 +11,9 @@ class DefaultModelAdmin(ExtendedAdminModel):
 
     def __init__(self, model, admin_site):
 
-        if not self.list_display == ("__str__",):
+        if self.list_display == ("__str__",):
             list_display = ['__str__'] + [
-                field.name for field in model._meta.fields if not self.is_ignore_list_display_field(field)
+                field.name for field in model._meta.fields if not self._is_ignore_list_display_field(field)
             ]
             for item in END_OF_LIST_DISPLAY:
                 if item in list_display:

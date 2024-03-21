@@ -45,7 +45,7 @@ class ObjectToolModelAdminMixin:
         ]
         return custom_urls + urls
 
-    def get_change_form_object_tools(self, request):
+    def get_change_form_object_tools(self, request, object_id):
         object_tools = []
         for change_form_object_tool in self.change_form_object_tools:
             object_tool = getattr(self, change_form_object_tool)
@@ -53,12 +53,12 @@ class ObjectToolModelAdminMixin:
         return {object_tool.name: object_tool for object_tool in object_tools}
 
     def change_form_object_tool_view(self, request, object_id, name):
-        change_form_object_tools = self.get_change_form_object_tools(request)
+        change_form_object_tools = self.get_change_form_object_tools(request, object_id)
         return change_form_object_tools[name](request, object_id)
 
     def _get_render_change_form_object_tools(self, request, object_id):
         base_url_name = "%s_%s" % (self.model._meta.app_label, self.model._meta.model_name)
-        change_form_object_tools = self.get_change_form_object_tools(request)
+        change_form_object_tools = self.get_change_form_object_tools(request, object_id)
         object_tool_position = []
         submit_row_position = []
 
