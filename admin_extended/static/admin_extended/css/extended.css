@@ -235,7 +235,7 @@ table#result_list .field-id {
     padding-left: 10px;
 }
 
-#nav-sidebar .current-app caption {
+/* #nav-sidebar .current-app caption {
     background-color: var(--primary);
 }
 
@@ -246,7 +246,7 @@ table#result_list .field-id {
 #nav-sidebar tbody tr:hover a {
     font-weight: bold;
     color: var(--primary-fg);
-}
+} */
 
 #nav-sidebar .module {
     margin-bottom: 0
@@ -268,11 +268,11 @@ table#result_list .field-id {
 }
 
 #nav-sidebar .module caption:hover {
-    background-color: var(--primary);
+    background-color: var(--header-bg);
     cursor: pointer;
 }
 
-#nav-sidebar .current-model {
+#nav-sidebar .current-model, #nav-sidebar .current-app {
     background-color: var(--primary)
 }
 
@@ -282,7 +282,11 @@ table#result_list .field-id {
 }
 
 #nav-sidebar tr {
-    background-color: var(--primary);
+    background-color: var(--header-bg);
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background-color: var(--header-bg);
 }
 
 #nav-sidebar tr th a {
