@@ -12,7 +12,7 @@
 
 html[data-theme="dark"] {
     --header-bg: #252525;
-    --breadcrumbs-bg: #3a4043;
+    --breadcrumbs-bg: #323435;
     --selected-row: #3a4043;
 }
 
@@ -20,7 +20,7 @@ html[data-theme="dark"] {
 @media (prefers-color-scheme: dark) {
     :root {
         --header-bg: #252525;
-        --breadcrumbs-bg: #3a4043;
+        --breadcrumbs-bg: #323435;
         --selected-row: #3a4043;
     }
 }
