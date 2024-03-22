@@ -130,11 +130,12 @@ table#result_list .field-id {
 }
 
 #content-main {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .submit-row {
     justify-content: end;
+    margin-top: 5px;
 }
 
 /* MENU SIDEBAR

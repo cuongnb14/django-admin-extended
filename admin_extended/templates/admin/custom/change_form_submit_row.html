@@ -5,7 +5,7 @@
               data-prompt-title="{{ action.post_param_title|default_if_none:'' }}"
               action="{{ action.url }}" method="post">
           {% csrf_token %}
-          <input type="submit" value="{{ action.description }}" style="background-color: {{ action.btn_color|default_if_none:'var(--button-bg)' }}">
+          <input type="submit" class="btn-submit" value="{{ action.description }}" style="background-color: {{ action.btn_color|default_if_none:'var(--button-bg)' }}">
         </form>
       {% endfor %}
     </div>
@@ -13,6 +13,7 @@
 
   <script>
     $(".action-form").submit(function (eventObj) {
+      $(this).find('.btn-submit').prop('disabled', true)
       let title = $(this).data('prompt-title')
       if (title) {
         let value = prompt(title, "");
