@@ -24,3 +24,17 @@ html[data-theme="dark"] {
         --selected-row: #3a4043;
     }
 }
+
+
+html[data-theme="light"] {
+    #nav-sidebar tr th a:link, #nav-sidebar tr th a:visited {
+        color: #89d8ff;
+    }
+}
+
+
+@media (prefers-color-scheme: light) {
+    #nav-sidebar tr th a:link, #nav-sidebar tr th a:visited {
+        color: #89d8ff;
+    }
+}
