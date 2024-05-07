@@ -1,5 +1,5 @@
 Django Admin Extended
-===================
+=====================
 
 Enhance UI/UX of django admin
 
@@ -59,7 +59,7 @@ Setting
 
 
 Basic Usage
-=======
+===========
 
 .. code:: python
 
@@ -101,9 +101,9 @@ Basic Usage
 
 
 Advand
-=======
+======
 Add custom object tools item in change list or change form
-------
+----------------------------------------------------------
 
 .. code:: python
 
@@ -148,11 +148,13 @@ Add custom object tools item in change list or change form
 **Result**
 
 - Change list object tool
-.. image:: screenshots/demo-change-list-object-tools.png?raw=true
+
+    .. image:: screenshots/demo-change-list-object-tools.png?raw=true
 
 - Change form object tool
-.. image:: screenshots/demo-change-form-object-tools.png?raw=true
-.. image:: screenshots/demo-custom-object-tools.png?raw=true
+    
+    .. image:: screenshots/demo-change-form-object-tools.png?raw=true
+    .. image:: screenshots/demo-custom-object-tools.png?raw=true
 
 
 **object_tool(function=None, *, icon=None, name=None, description=None, http_method='get', post_param_title=None)**
@@ -164,7 +166,7 @@ Add custom object tools item in change list or change form
 - post_param_title: Only affect when http_method is post. Title of param you want to pass.
 
 Add bookmark
-------
+------------
 - Go to page you want add to bookmark
 - Click bookmark button add bottom right
 - Choose name of bookmark
@@ -173,7 +175,7 @@ Add bookmark
 .. image:: screenshots/demo-bookmark.png?raw=true
 
 Automatically Register All Models In Django Admin
-----
+-------------------------------------------------
 Add this code at **end of admin.py file** of **lastest install app (INSTALLED_APPS setting)**
 
 .. code:: python
@@ -190,12 +192,15 @@ This function will automatic register admin for all unregistered model
 
 
 Screenshots
-=======
+===========
 - Change list page
-.. image:: screenshots/change-list-page.png?raw=true
+
+    .. image:: screenshots/change-list-page.png?raw=true
 
 - Read only mode
-.. image:: screenshots/view-mode.png?raw=true
+    
+    .. image:: screenshots/view-mode.png?raw=true
 
 - Edit mode
-.. image:: screenshots/edit-mode.png?raw=true
+    
+    .. image:: screenshots/edit-mode.png?raw=true
