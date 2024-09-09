@@ -8,6 +8,7 @@ END_OF_LIST_DISPLAY = ['created_at', 'created', 'modified_at', 'modified']
 class DefaultModelAdmin(ExtendedAdminModel):
 
     list_display_ignore_field_type = ['TextField', 'JsonField']
+    list_display_ignore_field_name = []
 
     def __init__(self, model, admin_site):
 
@@ -25,7 +26,7 @@ class DefaultModelAdmin(ExtendedAdminModel):
         super().__init__(model, admin_site)
 
     def _is_ignore_list_display_field(self, field):
-        return field.name == 'id' or type(field).__name__ in self.list_display_ignore_field_type
+        return field.name == 'id' or type(field).__name__ in self.list_display_ignore_field_type or field.name in self.list_display_ignore_field_name
 
 
     def get_queryset(self, request):
