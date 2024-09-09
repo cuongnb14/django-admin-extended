@@ -22,9 +22,9 @@ Enhance UI/UX of django admin
 Install
 =======
 
-::
+.. code:: shell
 
-    pip install git+https://github.com/cuongnb14/django-admin-extended.git@v5.0#egg=django-admin-extended
+    pip install git+https://github.com/cuongnb14/django-admin-extended.git@v5.0.1#egg=django-admin-extended
 
 Setting
 =======
