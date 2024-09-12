@@ -1,0 +1,209 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+
+  <style>
+
+    .chart-box {
+      height: 400px;
+      width: 100%;
+      display: block;
+      position: relative;
+    }
+
+    .btn-filter {
+      height: 35px;
+      position: relative;
+      bottom: -23px;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
+        integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w=="
+        crossorigin="anonymous"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+          integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+          crossorigin="anonymous"></script>
+
+{% endblock %}
+
+
+
+{% block content %}
+  <h1>{{ chart.name }}</h1>
+
+
+  <div id="content-main">
+    <form action="" method="GET" id="filter-form">
+      {% csrf_token %}
+
+      <fieldset class="module aligned" style="display:flex">
+        {% for field in form %}
+          <div class="form-row">
+            {{ field.errors }}
+
+            {{ field.label_tag }}
+
+            {{ field }}
+
+            {% if field.field.help_text %}
+              <p class="help">{{ field.field.help_text|safe }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <div class="form-row">
+          <input type="submit" class="default btn-filter" value="Filters">
+
+        </div>
+      </fieldset>
+    </form>
+
+    <div class="chart-box">
+      <canvas id="chart" style="width: 100%; height: 400px;"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const colors = [
+      [126, 178, 109],
+      [234, 184, 58],
+      [110, 208, 224],
+      [196, 21, 42],
+      [61, 168, 44],
+      [42, 120, 193],
+      [102, 190, 205],
+      [0, 128, 128],
+      [102, 153, 102],
+    ]
+    let metricsUrl = '{% url 'admin:admin_chart_metrics' chart.id %}'
+    var ctx = document.getElementById("chart");
+    let chart = null
+
+    function parseDatasets(metrics) {
+      let indexColor = 0
+      let datasets = []
+      metrics.datasets.forEach(item => {
+        let color = colors[indexColor % 8]
+        indexColor += 1
+        datasets.push(
+          {
+            label: item.label,
+            data: item.data,
+            backgroundColor: `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.3)`,
+            borderColor: `rgba(${color[0]}, ${color[1]}, ${color[2]})`,
+            borderWidth: 2,
+            minBarLength: 2,
+          }
+        )
+      })
+      return datasets
+    }
+
+    function fetchMetrics() {
+      let time_range = document.getElementById("id_time_range").value;
+      let scale = document.getElementById("id_scale").value;
+      let filter_value = document.getElementById("id_filters");
+      if (filter_value) {
+        filter_value = filter_value.value
+      }
+
+      $.get(metricsUrl, {time_range: time_range, scale: scale, filters: filter_value}, function (data, status) {
+        const metrics = data
+        if (chart) {
+          chart.data.labels = metrics.labels
+          chart.data.datasets = parseDatasets(metrics)
+          chart.update()
+        } else {
+          chart = new Chart(ctx, {
+            type: metrics.chart_type.toLowerCase(),
+            data: {
+              labels: metrics.labels,
+              datasets: parseDatasets(metrics)
+            },
+            options: {
+              legend: {
+                labels: {
+                  fontColor: '#b4b4b4'
+                }
+              },
+              scales: {
+                responsive: true,
+                maintainAspectRatio: false,
+                yAxes: [{
+                  stacked: metrics.stacked,
+                  ticks: {
+                    beginAtZero: true,
+                    fontColor: '#b4b4b4'
+                  },
+                  gridLines: {
+                    color: 'rgba(126,126,126, 0.2)'
+                  },
+                }],
+                xAxes: [{
+                  stacked: metrics.stacked,
+                  ticks: {
+                    fontColor: '#b4b4b4'
+                  },
+                  gridLines: {
+                    color: 'rgba(126,126,126,0.2)'
+                  },
+                }]
+              }
+            }
+          });
+        }
+
+      });
+
+    }
+
+    let filterForm = document.getElementById("filter-form");
+
+    filterForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+      fetchMetrics()
+    })
+
+
+    $(document).ready(function () {
+      fetchMetrics()
+
+      let filter_value = document.getElementById("id_filters")
+      let time_range = document.getElementById("id_time_range");
+      let scale = document.getElementById("id_scale");
+
+      time_range.addEventListener(
+        'change',
+        function () {
+          fetchMetrics()
+        },
+        false
+      );
+      scale.addEventListener(
+        'change',
+        function () {
+          fetchMetrics()
+        },
+        false
+      );
+
+      if (filter_value) {
+        filter_value.addEventListener(
+          'change',
+          function () {
+            fetchMetrics()
+          },
+          false
+        );
+      }
+
+
+    })
+
+
+  </script>
+
+{% endblock %}

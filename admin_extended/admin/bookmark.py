@@ -4,7 +4,7 @@ from django.urls import path
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-from . import models
+from .. import models
 
 
 @admin.register(models.Bookmark)
