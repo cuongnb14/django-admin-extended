@@ -5,6 +5,7 @@ Enhance UI/UX of django admin
 
 **Features:**
 
+- Create bar or line chart base on model
 - Custom order menu item
 - Restyle sidebar menu UI, collapse menu
 - Integrate icon fontawesome free v5: https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free
