@@ -24,3 +24,5 @@ Quickstart
 =======
 
 Documentation: https://github.com/cuongnb14/django-admin-extended/wiki
+
+Screenshots: https://github.com/cuongnb14/django-admin-extended/wiki/Screenshots
