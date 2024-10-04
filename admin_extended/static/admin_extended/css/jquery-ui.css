@@ -45,7 +45,7 @@ a.ui-button:active,
     a:link.ui-button,
     a:visited.ui-button,
     .ui-button {
-        color: var(--body-fg) !important;
+        color: #f1f1f1 !important;
     }
 
     .ui-widget-content a {

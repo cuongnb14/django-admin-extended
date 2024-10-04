@@ -144,7 +144,7 @@ table#result_list .field-id {
 #nav-filter {
     height: 35px;
     margin-top: 10px;
-    border-radius: 3px;
+    /* border-radius: 3px; */
     /* background-color: var(--primary); */
     border: none;
 }
