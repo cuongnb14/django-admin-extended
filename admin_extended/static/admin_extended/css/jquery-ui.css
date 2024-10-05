@@ -1,13 +1,72 @@
 /* jquery UI
   ========================================================================================= */
-.ui-state-active,
-.ui-widget-content .ui-state-active,
-.ui-widget-header .ui-state-active,
-a.ui-button:active,
-.ui-button:active,
-.ui-button.ui-state-active:hover {
-    background-color: var(--primary) !important;
-    border-color: var(--primary) !important;
+html[data-theme="light"] {
+    .ui-state-active,
+    .ui-widget-content .ui-state-active,
+    .ui-widget-header .ui-state-active,
+    a.ui-button:active,
+    .ui-button:active,
+    .ui-button.ui-state-active:hover {
+        background-color: var(--primary) !important;
+        border-color: var(--primary) !important;
+    }
+
+}
+
+@media (prefers-color-scheme: light) {
+    .ui-state-active,
+    .ui-widget-content .ui-state-active,
+    .ui-widget-header .ui-state-active,
+    a.ui-button:active,
+    .ui-button:active,
+    .ui-button.ui-state-active:hover {
+        background-color: var(--primary) !important;
+        border-color: var(--primary) !important;
+    }
+}
+
+
+html[data-theme="dark"] {
+    .ui-widget-content {
+        color: var(--body-fg) !important;
+        background-color: var(--body-bg) !important;
+        border-color: var(--hairline-color) !important;
+    }
+
+    .ui-widget-header {
+        background-color: var(--secondary) !important;
+        border-color: var(--secondary) !important;
+    }
+
+    .ui-state-default,
+    .ui-widget-content .ui-state-default,
+    .ui-widget-header .ui-state-default,
+    .ui-button,
+    html .ui-button.ui-state-disabled:hover,
+    html .ui-button.ui-state-disabled:active {
+        background-color: var(--secondary) !important;
+        border-color: var(--secondary) !important;
+    }
+
+    .ui-state-default.ui-state-active {
+        background: var(--primary) !important;
+        border-color: var(--primary) !important;
+    }
+
+    .ui-state-default a,
+    .ui-state-default a:link,
+    .ui-state-default a:visited,
+    a.ui-button,
+    a:link.ui-button,
+    a:visited.ui-button,
+    .ui-button {
+        color: #f1f1f1 !important;
+    }
+
+    .ui-widget-content a {
+        color: var(--link-fg) !important;
+    }
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,8 +88,8 @@ a.ui-button:active,
     .ui-button,
     html .ui-button.ui-state-disabled:hover,
     html .ui-button.ui-state-disabled:active {
-        background-color: var(--border-color) !important;
-        border-color: var(--border-color) !important;
+        background-color: var(--secondary) !important;
+        border-color: var(--secondary) !important;
     }
 
     .ui-state-default.ui-state-active {

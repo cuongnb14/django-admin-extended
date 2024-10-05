@@ -38,6 +38,10 @@ html[data-theme="light"] {
     :root {
         --breadcrumbs-bg: #255a73;
     }
+    #nav-sidebar tr th a:link,
+    #nav-sidebar tr th a:visited {
+        color: #fff;
+    }
 
     #nav-sidebar .current-model {
         background: var(--breadcrumbs-bg);
