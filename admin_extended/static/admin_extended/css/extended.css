@@ -77,7 +77,7 @@ details {
 
 @media (max-width: 1024px) {
     #changelist-filter {
-        top: 196px;
+        /* top: 196px; */
     }
 }
 
@@ -294,4 +294,19 @@ table#result_list .field-id {
     border: none;
     font-weight: normal;
     line-height: 1.5em;
+}
+
+#nav-sidebar tr th a:before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    margin-top: 7px;
+    border-radius: 50%;
+    background: #cccccc;
+    margin-left: -12px;
+}
+
+#nav-sidebar tr th a:hover {
+    color: var(--accent) !important;
 }
