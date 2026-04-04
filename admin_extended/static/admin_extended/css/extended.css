@@ -32,55 +32,6 @@
     padding-top: 8px;
 }
 
-/* FILTER BOX
-  ========================================================================================= */
-#content-main {
-    position: relative;
-}
-
-#changelist-filter {
-    position: absolute;
-    right: 10px;
-    top: 8px;
-    background: var(--hairline-color);
-}
-
-#changelist-filter #changelist-filter-extra-actions {
-    margin-bottom: 0px;
-}
-
-#changelist-filter details>summary {
-    cursor: pointer;
-}
-
-#changelist-filter h2 {
-    margin: 0;
-    text-align: right;
-}
-
-#changelist-filter h2:hover {
-    cursor: pointer;
-}
-
-#changelist-filter h3,
-#changelist-filter ul,
-details {
-    display: none;
-}
-
-#changelist-filter:hover h3,
-#changelist-filter:hover ul,
-#changelist-filter:hover details {
-    display: block;
-    min-width: 200px;
-}
-
-@media (max-width: 1024px) {
-    #changelist-filter {
-        /* top: 196px; */
-    }
-}
-
 
 /* STYLE CUSTOM BUTTONS
   ========================================================================================= */
