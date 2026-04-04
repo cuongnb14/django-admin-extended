@@ -1,0 +1,239 @@
+# django-admin-extended
+
+A Django package that enhances the Django admin UI/UX with charts, bookmarks, custom views, and improved model admin features.
+
+## Installation
+
+```python
+# settings.py
+INSTALLED_APPS = [
+    'admin_extended',
+    # ... other apps
+]
+```
+
+No URL configuration needed. The package overrides Django admin templates automatically.
+
+## Settings
+
+Configure via `ADMIN_EXTENDED` dict in `settings.py`:
+
+```python
+ADMIN_EXTENDED = {
+    'MENU_APP_ORDER': ['myapp', 'otherapp'],   # Sidebar app ordering by app_label
+    'MENU_MODEL_ORDER': ['MyModel', 'Other'],  # Model ordering within app sections
+    'APP_ICON': {                              # FontAwesome Free 5 icon per app
+        'myapp': 'fas fa-users',
+        'store': 'fas fa-shopping-cart',
+    },
+    'MODEL_ADMIN_TABBED_INLINE': True,         # Render inlines as tabs (default: True)
+    'RAW_ID_FIELDS_AS_DEFAULT': False,         # Auto-set raw_id/autocomplete for FK fields
+}
+```
+
+---
+
+## Core: ExtendedAdminModel
+
+The primary base class. Use instead of `admin.ModelAdmin`.
+
+```python
+from admin_extended.base import ExtendedAdminModel
+from django.contrib import admin
+
+@admin.register(MyModel)
+class MyModelAdmin(ExtendedAdminModel):
+    list_display = ('name', 'status', 'owner')
+```
+
+### View / Edit / Add modes
+
+Change pages open in **view** (read-only) mode by default. Users switch to edit mode via `?edit=1` in the URL. This is handled automatically — no extra code needed.
+
+Control which fields appear per mode:
+
+```python
+class MyModelAdmin(ExtendedAdminModel):
+    # Only visible in view mode (also: any field prefixed with display_)
+    ext_read_only_fields = ['display_summary', 'computed_value']
+
+    # Only visible in edit/add modes
+    ext_write_only_fields = ['internal_notes']
+
+    # Only visible to superusers (in list_display and fieldsets)
+    super_admin_only_fields = ['secret_flag']
+```
+
+### Inline tabs
+
+```python
+class MyModelAdmin(ExtendedAdminModel):
+    tab_inline = True  # default from settings; renders inlines as Bootstrap tabs
+    inlines = [OrderInline, NoteInline]
+```
+
+### Delete without confirm
+
+```python
+class MyModelAdmin(ExtendedAdminModel):
+    delete_without_confirm = True  # replaces default delete action
+```
+
+### HTML helpers (UIUtilsMixin)
+
+Available on any `ExtendedAdminModel`:
+
+```python
+def display_photo(self, obj):
+    return self.get_html_img_tag(obj.photo.url, height='80px')
+
+def display_link(self, obj):
+    return self.get_html_a_tag(obj.url, title='Open')
+
+def display_status(self, obj):
+    color = self.TEXT_COLOR_SUCCESS if obj.is_active else self.TEXT_COLOR_ERROR
+    return self.get_html_text_color(obj.get_status_display(), color)
+
+def display_payload(self, obj):
+    return self.format_json(obj.payload)
+```
+
+Constants: `TEXT_COLOR_SUCCESS`, `TEXT_COLOR_ERROR`, `TEXT_COLOR_WARNING`, `TEXT_COLOR_DEFAULT`.
+
+### FK links in list_display (DispayLinkAdapter)
+
+Foreign key fields in `list_display` are automatically rendered as clickable links to the related object's change page. Disable with:
+
+```python
+class MyModelAdmin(ExtendedAdminModel):
+    enable_foreign_link = False
+```
+
+---
+
+## Object Tools
+
+Add custom action buttons to change-form or change-list pages using the `@object_tool` decorator.
+
+```python
+from admin_extended.base import ExtendedAdminModel
+from admin_extended.decorators import object_tool
+from django.http import HttpResponseRedirect
+
+@admin.register(Order)
+class OrderAdmin(ExtendedAdminModel):
+    # GET tool — appears in the object-tools bar at the top of the change form
+    change_form_object_tools = ['send_invoice']
+
+    # POST tool — appears in the submit row at the bottom of the change form
+    change_form_object_tools = ['approve_order']
+
+    # Tool on the change list page
+    change_list_object_tools = ['export_csv']
+
+    @object_tool(icon='fas fa-envelope', name='send_invoice', description='Send Invoice')
+    def send_invoice(self, request, object_id):
+        # do work
+        return HttpResponseRedirect('../')
+
+    @object_tool(
+        icon='fas fa-check',
+        name='approve_order',
+        description='Approve',
+        http_method='post',
+        post_param_title='Confirm Approval'  # shown as button label in submit row
+    )
+    def approve_order(self, request, object_id):
+        # do work
+        return HttpResponseRedirect('../')
+
+    @object_tool(icon='fas fa-download', name='export_csv', description='Export CSV')
+    def export_csv(self, request):
+        # do work
+        return HttpResponse(...)
+```
+
+---
+
+## DefaultModelAdmin & Auto-registration
+
+`DefaultModelAdmin` extends `ExtendedAdminModel` and auto-populates `list_display` (all non-text, non-ID fields) and `list_filter` (fields with choices), and adds `select_related` for all FK fields.
+
+```python
+from admin_extended.utils import DefaultModelAdmin, auto_register_model_admin
+from django.contrib import admin
+
+# Register a specific model with smart defaults
+@admin.register(MyModel)
+class MyModelAdmin(DefaultModelAdmin):
+    pass  # list_display and list_filter populated automatically
+
+# Or register ALL models in the project with DefaultModelAdmin
+# (skips already-registered models and Django built-in models)
+auto_register_model_admin(
+    default_model_admin_class=DefaultModelAdmin,  # optional custom subclass
+    ignore_models=['sensitivemodel.myapp'],        # format: "modelname.applabel"
+)
+```
+
+---
+
+## CustomTableAdminPage
+
+Replace a model's changelist with a fully custom HTML table page.
+
+```python
+from admin_extended.base import CustomTableAdminPage, TableData
+from django.contrib import admin
+
+class ReportProxy(MyModel):
+    class Meta:
+        proxy = True
+
+@admin.register(ReportProxy)
+class ReportAdmin(CustomTableAdminPage):
+    model = ReportProxy
+
+    def get_table_data(self):
+        table = TableData(header='Monthly Summary')
+        table.table_titles = ['Month', 'Orders', 'Revenue']
+        for row in get_monthly_stats():
+            table.add_rows([row.month, row.orders, row.revenue])
+        return [table]
+```
+
+---
+
+## Time Series Charts
+
+Create database-driven charts via the Django admin without writing code.
+
+1. Navigate to **Admin Extended → Time Series Charts** and create a chart record.
+2. Fill in: target `app_label`, `model_name`, `time_field` (DateTimeField name), `aggregate` (COUNT/SUM/AVG/MIN/MAX), `aggregate_field`.
+3. Optionally set `split_field` to produce multi-series charts, or `filter_field` + `filters` to pre-filter data.
+4. View the chart at `/admin/admin_extended/timeserieschart/<id>/chart/`.
+
+The JSON metrics API is at `/admin/admin_extended/timeserieschart/<id>/metrics/` (query params: `time_range`, `scale`, `filters`).
+
+---
+
+## Bookmarks
+
+Bookmarks appear in the admin sidebar as a pinned section. Manage them at **Admin Extended → Bookmarks**. Users can also add bookmarks via the bookmark button in the admin header (POST to `/admin/admin_extended/bookmark/add-bookmark`).
+
+---
+
+## Management Command
+
+```bash
+# Visualize migration dependency tree for one or more apps
+python manage.py migration_graph myapp otherapp
+```
+
+---
+
+## FontAwesome Icons
+
+FontAwesome Free 5.15.4 is included. Use class strings like `fas fa-users`, `far fa-calendar`, `fab fa-github` anywhere the package accepts an `icon` parameter.
+
+Icon reference: https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free

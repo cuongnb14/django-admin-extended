@@ -1,7 +1,7 @@
 import os
 from setuptools import find_packages, setup
 
-VERSION = '5.1.5'
+VERSION = '5.1.6'
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     README = readme.read()
 
