@@ -1,0 +1,90 @@
+[build-system]
+requires = ["setuptools>=68", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-admin-extended"
+dynamic = ["version"]
+description = "Enhance UI/UX of Django admin"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Cuong Nguyen", email = "cuongnb14@gmail.com" }]
+keywords = ["django", "admin", "ui", "ux"]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Framework :: Django :: 6.0",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+dependencies = [
+    "Django>=5.2,<7.0",
+    "fontawesomefree==5.15.4",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8",
+    "pytest-django>=4.8",
+    "pytest-cov>=5",
+]
+dev = [
+    "django-admin-extended[test]",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "django-stubs[compatible-mypy]>=5.1",
+    "tox>=4",
+    "build>=1.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/cuongnb14/django-admin-extended"
+Issues = "https://github.com/cuongnb14/django-admin-extended/issues"
+Changelog = "https://github.com/cuongnb14/django-admin-extended/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+include = ["admin_extended*"]
+exclude = ["admin_extended.tests*"]
+
+[tool.setuptools.package-data]
+"admin_extended" = ["py.typed", "templates/**/*", "static/**/*"]
+"admin_extended.bookmarks" = ["templates/**/*"]
+"admin_extended.charts" = ["templates/**/*"]
+
+[tool.setuptools_scm]
+write_to = "admin_extended/_version.py"
+fallback_version = "6.0.0.dev0"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["**/migrations/*.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "DJ", "RUF", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["mypy_django_plugin.main"]
+exclude = ["admin_extended/tests/.*", "admin_extended/.*/migrations/.*"]
+
+[tool.django-stubs]
+django_settings_module = "admin_extended.tests.example_project.settings"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "admin_extended.tests.example_project.settings"
+python_files = ["test_*.py"]
+addopts = "-ra --strict-markers"
+
+[tool.coverage.run]
+branch = true
+source = ["admin_extended"]
+omit = ["admin_extended/tests/*", "admin_extended/*/migrations/*", "admin_extended/_version.py"]

@@ -1,0 +1,55 @@
+name: CI
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.13"]
+        django: ["52", "60"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install tox
+      - name: Run tests
+        run: |
+          PY=$(echo "${{ matrix.python }}" | tr -d '.')
+          tox -e py${PY}-dj${{ matrix.django }}
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install tox
+      - run: tox -e lint
+
+  type:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install tox
+      - run: tox -e type
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install tox
+      - run: tox -e build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/

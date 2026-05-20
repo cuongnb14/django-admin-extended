@@ -114,3 +114,10 @@ media/
 
 # Ignore tmp/
 tmp/
+
+# Virtual environments
+.venv/
+
+# v6 build artifacts
+admin_extended/_version.py
+.ruff_cache/
