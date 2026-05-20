@@ -1,0 +1,14 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+{% for table in tables %}
+  <h2>{{ table.header }}</h2>
+  <table>
+    <thead>
+      <tr>{% for title in table.titles %}<th>{{ title }}</th>{% endfor %}</tr>
+    </thead>
+    <tbody>
+      {% for row in table.rows %}<tr>{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>{% endfor %}
+    </tbody>
+  </table>
+{% endfor %}
+{% endblock %}
