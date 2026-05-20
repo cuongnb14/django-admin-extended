@@ -1,0 +1,9 @@
+{% load i18n %}
+{% for tool in admin_extended_object_tools %}
+<li>
+  <a href="{{ tool.url }}" class="historylink">
+    {% if tool.icon %}<i class="{{ tool.icon }}"></i>{% endif %}
+    {{ tool.label }}
+  </a>
+</li>
+{% endfor %}

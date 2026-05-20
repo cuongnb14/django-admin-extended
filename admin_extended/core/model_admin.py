@@ -18,6 +18,7 @@ from django.http import HttpRequest
 
 from ..conf import settings as ae_settings
 from ..display.link_adapter import DisplayLinkAdapter
+from ..object_tools.mixin import ObjectToolMixin
 from .actions import delete_without_confirm
 from .field_visibility import filter_fieldsets, is_display_only
 from .page_mode import PageMode, get_page_mode, page_mode_scope
@@ -28,7 +29,7 @@ def _has_search_fields(field) -> bool:  # type: ignore[no-untyped-def]
     return bool(model_admin and model_admin.search_fields)
 
 
-class ExtendedAdminModel(DisplayLinkAdapter, admin.ModelAdmin):
+class ExtendedAdminModel(ObjectToolMixin, DisplayLinkAdapter, admin.ModelAdmin):
     """Drop-in replacement for ``admin.ModelAdmin`` with v6 features.
 
     Class attributes:
