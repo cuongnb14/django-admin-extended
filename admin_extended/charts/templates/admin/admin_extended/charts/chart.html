@@ -1,0 +1,24 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>{{ chart_title }}</h1>
+<form method="get">{{ form.as_p }}<button type="submit">Apply</button></form>
+<canvas id="chart-canvas"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script>
+(async () => {
+  const params = new URLSearchParams(window.location.search);
+  const url = "{{ metrics_url }}" + "?" + params.toString();
+  const r = await fetch(url);
+  if (!r.ok) { document.getElementById("chart-canvas").outerHTML = "Error loading chart"; return; }
+  const j = await r.json();
+  new Chart(document.getElementById("chart-canvas"), {
+    type: (j.chart_type || "BAR").toLowerCase(),
+    data: {
+      labels: j.labels,
+      datasets: j.datasets.map(d => ({ label: d.label, data: d.data })),
+    },
+    options: { scales: { x: { stacked: !!j.stacked }, y: { stacked: !!j.stacked } } },
+  });
+})();
+</script>
+{% endblock %}
