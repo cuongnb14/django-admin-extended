@@ -56,9 +56,12 @@ def test_decorator_rejects_invalid_permission():
 
 # ----- mixin dispatch tests -----
 
+import importlib
+
+from django.conf import settings
 from django.contrib import admin
 from django.http import HttpResponse
-from django.urls import reverse
+from django.urls import clear_url_caches, reverse
 
 from admin_extended.core import ExtendedAdminModel
 from admin_extended.tests.example_project.sample_app.models import Product
@@ -81,6 +84,10 @@ def _register(model, admin_cls):
     if model in admin.site._registry:
         admin.site.unregister(model)
     admin.site.register(model, admin_cls)
+    # Reload the ROOT_URLCONF module so path("admin/", admin.site.urls) re-evaluates
+    # with the freshly registered model, then clear Django's URL resolver cache.
+    importlib.reload(importlib.import_module(settings.ROOT_URLCONF))
+    clear_url_caches()
 
 
 def test_change_form_object_tool_dispatch(admin_client, db):

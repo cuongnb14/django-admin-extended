@@ -15,7 +15,7 @@ INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.staticfiles",
     "admin_extended",
-    # "admin_extended.bookmarks",   # enabled in Phase 9
+    "admin_extended.bookmarks",
     # "admin_extended.charts",      # enabled in Phase 10
     "admin_extended.tests.example_project.sample_app",
 ]
