@@ -7,10 +7,14 @@ A Django package that enhances the Django admin UI/UX with charts, bookmarks, cu
 ```python
 # settings.py
 INSTALLED_APPS = [
-    'admin_extended',
+    'admin_extended',                  # required
+    'admin_extended.bookmarks',        # optional — bookmark sidebar feature
+    'admin_extended.charts',           # optional — time series chart feature
     # ... other apps
 ]
 ```
+
+`admin_extended.bookmarks` and `admin_extended.charts` are independent sub-apps with their own migrations. Only add them if you need those features.
 
 No URL configuration needed. The package overrides Django admin templates automatically.
 
@@ -26,8 +30,8 @@ ADMIN_EXTENDED = {
         'myapp': 'fas fa-users',
         'store': 'fas fa-shopping-cart',
     },
-    'MODEL_ADMIN_TABBED_INLINE': True,         # Render inlines as tabs (default: True)
-    'RAW_ID_FIELDS_AS_DEFAULT': False,         # Auto-set raw_id/autocomplete for FK fields
+    'TABBED_INLINES': True,         # Render inlines as tabs (default: True)
+    'AUTO_RAW_ID_FIELDS': False,         # Auto-set raw_id/autocomplete for FK fields
 }
 ```
 
@@ -38,7 +42,7 @@ ADMIN_EXTENDED = {
 The primary base class. Use instead of `admin.ModelAdmin`.
 
 ```python
-from admin_extended.base import ExtendedAdminModel
+from admin_extended.core import ExtendedAdminModel
 from django.contrib import admin
 
 @admin.register(MyModel)
@@ -55,20 +59,20 @@ Control which fields appear per mode:
 ```python
 class MyModelAdmin(ExtendedAdminModel):
     # Only visible in view mode (also: any field prefixed with display_)
-    ext_read_only_fields = ['display_summary', 'computed_value']
+    view_only_fields = ['display_summary', 'computed_value']
 
     # Only visible in edit/add modes
-    ext_write_only_fields = ['internal_notes']
+    edit_only_fields = ['internal_notes']
 
     # Only visible to superusers (in list_display and fieldsets)
-    super_admin_only_fields = ['secret_flag']
+    superuser_only_fields = ['secret_flag']
 ```
 
 ### Inline tabs
 
 ```python
 class MyModelAdmin(ExtendedAdminModel):
-    tab_inline = True  # default from settings; renders inlines as Bootstrap tabs
+    tabbed_inlines = True  # default from settings; renders inlines as Bootstrap tabs
     inlines = [OrderInline, NoteInline]
 ```
 
@@ -76,31 +80,32 @@ class MyModelAdmin(ExtendedAdminModel):
 
 ```python
 class MyModelAdmin(ExtendedAdminModel):
-    delete_without_confirm = True  # replaces default delete action
+    skip_delete_confirm = True  # replaces default delete action
 ```
 
-### HTML helpers (UIUtilsMixin)
-
-Available on any `ExtendedAdminModel`:
+### HTML helpers (free functions in admin_extended.display)
 
 ```python
+from admin_extended.display import html_img, html_link, html_color, html_json
+from admin_extended.display.html import SUCCESS, ERROR, WARNING, DEFAULT
+
 def display_photo(self, obj):
-    return self.get_html_img_tag(obj.photo.url, height='80px')
+    return html_img(obj.photo.url, height='80px')
 
 def display_link(self, obj):
-    return self.get_html_a_tag(obj.url, title='Open')
+    return html_link(obj.url, title='Open')
 
 def display_status(self, obj):
-    color = self.TEXT_COLOR_SUCCESS if obj.is_active else self.TEXT_COLOR_ERROR
-    return self.get_html_text_color(obj.get_status_display(), color)
+    color = SUCCESS if obj.is_active else ERROR
+    return html_color(obj.get_status_display(), color)
 
 def display_payload(self, obj):
-    return self.format_json(obj.payload)
+    return html_json(obj.payload)
 ```
 
-Constants: `TEXT_COLOR_SUCCESS`, `TEXT_COLOR_ERROR`, `TEXT_COLOR_WARNING`, `TEXT_COLOR_DEFAULT`.
+Color constants in `admin_extended.display.html`: `SUCCESS`, `ERROR`, `WARNING`, `DEFAULT`.
 
-### FK links in list_display (DispayLinkAdapter)
+### FK links in list_display (DisplayLinkAdapter)
 
 Foreign key fields in `list_display` are automatically rendered as clickable links to the related object's change page. Disable with:
 
@@ -116,8 +121,8 @@ class MyModelAdmin(ExtendedAdminModel):
 Add custom action buttons to change-form or change-list pages using the `@object_tool` decorator.
 
 ```python
-from admin_extended.base import ExtendedAdminModel
-from admin_extended.decorators import object_tool
+from admin_extended.core import ExtendedAdminModel
+from admin_extended.object_tools import object_tool
 from django.http import HttpResponseRedirect
 
 @admin.register(Order)
@@ -131,7 +136,7 @@ class OrderAdmin(ExtendedAdminModel):
     # Tool on the change list page
     change_list_object_tools = ['export_csv']
 
-    @object_tool(icon='fas fa-envelope', name='send_invoice', description='Send Invoice')
+    @object_tool(icon='fas fa-envelope', name='send_invoice', label='Send Invoice')
     def send_invoice(self, request, object_id):
         # do work
         return HttpResponseRedirect('../')
@@ -139,15 +144,15 @@ class OrderAdmin(ExtendedAdminModel):
     @object_tool(
         icon='fas fa-check',
         name='approve_order',
-        description='Approve',
-        http_method='post',
+        label='Approve',
+        method='post',
         post_param_title='Confirm Approval'  # shown as button label in submit row
     )
     def approve_order(self, request, object_id):
         # do work
         return HttpResponseRedirect('../')
 
-    @object_tool(icon='fas fa-download', name='export_csv', description='Export CSV')
+    @object_tool(icon='fas fa-download', name='export_csv', label='Export CSV')
     def export_csv(self, request):
         # do work
         return HttpResponse(...)
@@ -160,7 +165,7 @@ class OrderAdmin(ExtendedAdminModel):
 `DefaultModelAdmin` extends `ExtendedAdminModel` and auto-populates `list_display` (all non-text, non-ID fields) and `list_filter` (fields with choices), and adds `select_related` for all FK fields.
 
 ```python
-from admin_extended.utils import DefaultModelAdmin, auto_register_model_admin
+from admin_extended.autoregister import DefaultModelAdmin, auto_register
 from django.contrib import admin
 
 # Register a specific model with smart defaults
@@ -170,9 +175,9 @@ class MyModelAdmin(DefaultModelAdmin):
 
 # Or register ALL models in the project with DefaultModelAdmin
 # (skips already-registered models and Django built-in models)
-auto_register_model_admin(
-    default_model_admin_class=DefaultModelAdmin,  # optional custom subclass
-    ignore_models=['sensitivemodel.myapp'],        # format: "modelname.applabel"
+auto_register(
+    default_admin=DefaultModelAdmin,              # optional custom subclass
+    ignore=['myapp.SensitiveModel'],              # format: "app_label.ModelName"
 )
 ```
 
@@ -183,7 +188,7 @@ auto_register_model_admin(
 Replace a model's changelist with a fully custom HTML table page.
 
 ```python
-from admin_extended.base import CustomTableAdminPage, TableData
+from admin_extended.custom_pages import CustomTableAdminPage, TableData
 from django.contrib import admin
 
 class ReportProxy(MyModel):
@@ -208,18 +213,23 @@ class ReportAdmin(CustomTableAdminPage):
 
 Create database-driven charts via the Django admin without writing code.
 
-1. Navigate to **Admin Extended → Time Series Charts** and create a chart record.
+Requires `admin_extended.charts` in `INSTALLED_APPS`.
+
+1. Navigate to **Admin Extended Charts → Time Series Charts** and create a chart record.
 2. Fill in: target `app_label`, `model_name`, `time_field` (DateTimeField name), `aggregate` (COUNT/SUM/AVG/MIN/MAX), `aggregate_field`.
 3. Optionally set `split_field` to produce multi-series charts, or `filter_field` + `filters` to pre-filter data.
-4. View the chart at `/admin/admin_extended/timeserieschart/<id>/chart/`.
+4. Optionally set `max_points` (cap returned buckets) and `cache_seconds` (per-chart result caching).
+5. View the chart at `/admin/admin_extended_charts/timeserieschart/<id>/chart/`.
 
-The JSON metrics API is at `/admin/admin_extended/timeserieschart/<id>/metrics/` (query params: `time_range`, `scale`, `filters`).
+The JSON metrics API is at `/admin/admin_extended_charts/timeserieschart/<id>/metrics/` (query params: `time_range`, `scale`, `filters`).
 
 ---
 
 ## Bookmarks
 
-Bookmarks appear in the admin sidebar as a pinned section. Manage them at **Admin Extended → Bookmarks**. Users can also add bookmarks via the bookmark button in the admin header (POST to `/admin/admin_extended/bookmark/add-bookmark`).
+Requires `admin_extended.bookmarks` in `INSTALLED_APPS`.
+
+Bookmarks appear in the admin sidebar as a pinned section. Manage them at **Admin Extended Bookmarks → Bookmarks**. The CSRF-disabled POST endpoint has been removed; manage bookmarks through the standard admin change form.
 
 ---
 
