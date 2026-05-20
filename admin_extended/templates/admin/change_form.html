@@ -22,7 +22,7 @@
       <li><a href="?edit=1"><i class="fas fa-edit"></i> Edit</a></li>
     {% endif %}
   {% endif %}
-  {% include "admin/custom/custom_object_tools.html" %}
+  {% include "admin/admin_extended/object_tools/change_form_object_tools.html" %}
 {% endblock %}
 
 
@@ -34,7 +34,7 @@
 
 {% block content %}
   {{ block.super }}
-  {% include "admin/custom/change_form_submit_row.html" %}
+  {% include "admin/admin_extended/object_tools/change_form_submit_row.html" %}
 {% endblock %}
 
 
