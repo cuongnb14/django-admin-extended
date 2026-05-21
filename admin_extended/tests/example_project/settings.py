@@ -8,15 +8,17 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
+    # admin_extended must precede django.contrib.admin so its template
+    # overrides (admin/change_form.html, admin/base_site.html, ...) win.
+    "admin_extended",
+    "admin_extended.bookmarks",
+    "admin_extended.charts",
     "django.contrib.contenttypes",
     "django.contrib.auth",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.admin",
     "django.contrib.staticfiles",
-    "admin_extended",
-    "admin_extended.bookmarks",
-    "admin_extended.charts",
     "admin_extended.tests.example_project.sample_app",
 ]
 

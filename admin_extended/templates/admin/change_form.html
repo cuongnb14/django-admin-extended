@@ -30,10 +30,6 @@
   {% if ae_page_mode != 'view' or is_popup %}
     {{ block.super }}
   {% endif %}
-{% endblock %}
-
-{% block content %}
-  {{ block.super }}
   {% include "admin/admin_extended/object_tools/change_form_submit_row.html" %}
 {% endblock %}
 

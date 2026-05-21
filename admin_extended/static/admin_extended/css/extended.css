@@ -65,6 +65,19 @@ table#result_list .field-id {
     margin-top: 5px;
 }
 
+/* Object-tool POST buttons rendered as <button> need the same sizing/casing
+   that Django applies to <input type="submit"> in .submit-row. */
+.submit-row button {
+    height: 2.1875rem;
+    line-height: 0.9375rem;
+    margin: 0;
+    padding: 0 15px;
+}
+
+.submit-row button.default {
+    text-transform: uppercase;
+}
+
 /* MENU SIDEBAR
   ========================================================================================= */
 

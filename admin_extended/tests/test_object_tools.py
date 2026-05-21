@@ -108,6 +108,38 @@ def test_change_list_object_tool_dispatch(admin_client, db):
     assert response.content == b"exported"
 
 
+def test_change_form_post_tool_button_rendered_inside_form(admin_client, db):
+    """Regression: submit buttons for POST tools must live inside the main
+    change-form <form>, otherwise clicking them does nothing."""
+    import re
+
+    _register(Product, _ProductAdmin)
+    # add a POST-method tool so a submit-row button is rendered
+    class _AdminWithPostTool(_ProductAdmin):
+        change_form_tools = ("archive_it",)
+
+        @object_tool(label="Archive it", method="POST")
+        def archive_it(self, request, object_id):
+            return HttpResponse("ok")
+
+    _register(Product, _AdminWithPostTool)
+    product = Product.objects.create(name="p", price=10)
+
+    url = reverse("admin:sample_app_product_change", args=[product.pk])
+    html = admin_client.get(url).content.decode()
+    tool_url = reverse(
+        "admin:sample_app_product_change_form_object_tool", args=[product.pk, "archive_it"]
+    )
+    btn_pos = html.find(f'formaction="{tool_url}"')
+    assert btn_pos != -1, "submit-row button for POST tool was not rendered"
+    form_opens = [m.start() for m in re.finditer(r"<form ", html) if m.start() < btn_pos]
+    form_closes = [m.start() for m in re.finditer(r"</form>", html) if m.start() > btn_pos]
+    assert form_opens and form_closes, "no surrounding <form> tags found"
+    assert max(form_opens) < btn_pos < min(form_closes), (
+        "submit button must be inside a <form> for the click to do anything"
+    )
+
+
 def test_change_form_tool_denied_without_permission(client, user, db):
     # `user` is staff but has no Product.change permission
     _register(Product, _ProductAdmin)
