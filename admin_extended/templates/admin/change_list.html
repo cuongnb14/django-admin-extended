@@ -2,7 +2,7 @@
 
 {% block object-tools-items %}
     {% for item in admin_extended_changelist_tools %}
-        <li><a href="{{ item.url }}">{{ item.description }} <i class="{{ item.icon }}"></i></a></li>
+        <li><a href="{{ item.url }}">{% if item.icon %}<i class="{{ item.icon }}"></i> {% endif %}{{ item.label }}</a></li>
     {% endfor %}
     {{ block.super }}
 {% endblock %}

@@ -1,7 +1,11 @@
 {% load i18n %}
+{% if admin_extended_submit_row_tools %}
+<div class="submit-row">
 {% for tool in admin_extended_submit_row_tools %}
-<button type="submit" formaction="{{ tool.url }}" name="{{ tool.post_param|default:'' }}" class="default">
+<button type="submit" formaction="{{ tool.url }}" name="{{ tool.post_param|default:'' }}" class="button default">
   {% if tool.icon %}<i class="{{ tool.icon }}"></i>{% endif %}
   {{ tool.label }}
 </button>
 {% endfor %}
+</div>
+{% endif %}
