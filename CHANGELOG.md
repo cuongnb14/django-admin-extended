@@ -22,8 +22,8 @@ Use only for new installations or projects that accept manual migration.
 
 - `BookmarkAdmin.add_bookmark_view` (CSRF-disabled POST endpoint — security issue).
 - `request.page_type` attribute (use `get_page_mode(request, object_id)` or `current_page_mode()`).
-- `ExtendedAdminModel.get_html_*` methods (use free functions `admin_extended.display.html_*`).
-- `ExtendedAdminModel.TEXT_COLOR_*` constants (use `admin_extended.display.html.{SUCCESS,ERROR,WARNING,DEFAULT}`).
+- `ExtendedModelAdmin.get_html_*` methods (use free functions `admin_extended.display.html_*`).
+- `ExtendedModelAdmin.TEXT_COLOR_*` constants (use `admin_extended.display.html.{SUCCESS,ERROR,WARNING,DEFAULT}`).
 - `setup.py`, `MANIFEST.in`.
 - v5 packages `admin_extended.base`, `admin_extended.admin`, `admin_extended.models`,
   `admin_extended.utils`, `admin_extended.decorators`, `admin_extended.settings`.

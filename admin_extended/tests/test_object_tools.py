@@ -63,11 +63,11 @@ from django.contrib import admin
 from django.http import HttpResponse
 from django.urls import clear_url_caches, reverse
 
-from admin_extended.core import ExtendedAdminModel
+from admin_extended.core import ExtendedModelAdmin
 from admin_extended.tests.example_project.sample_app.models import Product
 
 
-class _ProductAdmin(ExtendedAdminModel):
+class _ProductAdmin(ExtendedModelAdmin):
     change_form_tools = ("recompute",)
     change_list_tools = ("export",)
 

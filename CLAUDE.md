@@ -29,7 +29,7 @@ INSTALLED_APPS = [
 ## Architecture
 
 - `admin_extended.conf.settings`: lazy proxy reading `settings.ADMIN_EXTENDED` per access (reactive to override_settings).
-- `admin_extended.core`: `ExtendedAdminModel`, `PageMode`, `get_page_mode`, fieldset filters, `delete_without_confirm` action.
+- `admin_extended.core`: `ExtendedModelAdmin`, `PageMode`, `get_page_mode`, fieldset filters, `delete_without_confirm` action.
 - `admin_extended.display`: `DisplayLinkAdapter` (FK → link); free helpers `html_img`, `html_link`, `html_color`, `html_json`; color constants in `display.html`.
 - `admin_extended.object_tools`: `@object_tool` decorator returns `ObjectToolSpec`; `ObjectToolMixin` dispatches with permission check.
 - `admin_extended.autoregister`: `DefaultModelAdmin` + `auto_register(default_admin=..., ignore=['app_label.ModelName'])`.

@@ -1,10 +1,10 @@
-"""Integration tests for ExtendedAdminModel using sample_app."""
+"""Integration tests for ExtendedModelAdmin using sample_app."""
 from __future__ import annotations
 
 from django.contrib import admin
 from django.test import RequestFactory
 
-from admin_extended.core import ExtendedAdminModel, PageMode, get_page_mode
+from admin_extended.core import ExtendedModelAdmin, PageMode, get_page_mode
 from admin_extended.tests.example_project.sample_app.models import Customer, Order, Product
 
 
@@ -16,7 +16,7 @@ def _site_with(*models_admins):
 
 
 def test_view_mode_has_change_permission_is_false(superuser):
-    class ProductAdmin(ExtendedAdminModel):
+    class ProductAdmin(ExtendedModelAdmin):
         pass
 
     site = _site_with((Product, ProductAdmin))
@@ -32,7 +32,7 @@ def test_view_mode_has_change_permission_is_false(superuser):
 
 
 def test_edit_mode_has_change_permission_is_true(superuser):
-    class ProductAdmin(ExtendedAdminModel):
+    class ProductAdmin(ExtendedModelAdmin):
         pass
 
     site = _site_with((Product, ProductAdmin))
@@ -47,7 +47,7 @@ def test_edit_mode_has_change_permission_is_true(superuser):
 
 
 def test_super_admin_only_fields_hidden_from_non_superuser(user):
-    class ProductAdmin(ExtendedAdminModel):
+    class ProductAdmin(ExtendedModelAdmin):
         list_display = ("name", "price", "status")
         superuser_only_fields = ("status",)
 
@@ -60,7 +60,7 @@ def test_super_admin_only_fields_hidden_from_non_superuser(user):
 
 
 def test_super_admin_only_fields_visible_to_superuser(superuser):
-    class ProductAdmin(ExtendedAdminModel):
+    class ProductAdmin(ExtendedModelAdmin):
         list_display = ("name", "price", "status")
         superuser_only_fields = ("status",)
 

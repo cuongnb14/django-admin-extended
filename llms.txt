@@ -42,16 +42,16 @@ Settings are read lazily via `admin_extended.conf.settings` so `override_setting
 
 ---
 
-## Core: ExtendedAdminModel
+## Core: ExtendedModelAdmin
 
-The primary base class. Use instead of `admin.ModelAdmin`. Defined at `admin_extended.core.ExtendedAdminModel`.
+The primary base class. Use instead of `admin.ModelAdmin`. Defined at `admin_extended.core.ExtendedModelAdmin`.
 
 ```python
-from admin_extended.core import ExtendedAdminModel
+from admin_extended.core import ExtendedModelAdmin
 from django.contrib import admin
 
 @admin.register(MyModel)
-class MyModelAdmin(ExtendedAdminModel):
+class MyModelAdmin(ExtendedModelAdmin):
     list_display = ('name', 'status', 'owner')
 ```
 
@@ -80,7 +80,7 @@ The active mode is also injected into template context as `ae_page_mode` (string
 ### Per-mode field visibility
 
 ```python
-class MyModelAdmin(ExtendedAdminModel):
+class MyModelAdmin(ExtendedModelAdmin):
     # Hidden in edit/add mode (shown only in view mode).
     # Any field whose name starts with 'display_' is also automatically treated as view-only.
     view_only_fields = ('computed_value',)
@@ -95,7 +95,7 @@ class MyModelAdmin(ExtendedAdminModel):
 ### Inline tabs
 
 ```python
-class MyModelAdmin(ExtendedAdminModel):
+class MyModelAdmin(ExtendedModelAdmin):
     tabbed_inlines = True  # default from settings.TABBED_INLINES
     inlines = [OrderInline, NoteInline]
 ```
@@ -107,7 +107,7 @@ When `auto_raw_id_fields = True` (or `AUTO_RAW_ID_FIELDS` global), every FK on t
 - `raw_id_fields` entry otherwise
 
 ```python
-class MyModelAdmin(ExtendedAdminModel):
+class MyModelAdmin(ExtendedModelAdmin):
     auto_raw_id_fields = True
 ```
 
@@ -116,7 +116,7 @@ class MyModelAdmin(ExtendedAdminModel):
 ```python
 from admin_extended.core.actions import delete_without_confirm
 
-class MyModelAdmin(ExtendedAdminModel):
+class MyModelAdmin(ExtendedModelAdmin):
     skip_delete_confirm = True  # replaces the default delete_selected action
 
 # Or use the bare action on any admin:
@@ -156,10 +156,10 @@ Color constants in `admin_extended.display.html`: `SUCCESS='#3d9402'`, `ERROR='#
 
 ### FK links in list_display (DisplayLinkAdapter)
 
-Foreign-key field names in `list_display` are automatically rendered as clickable links to the related object's change page (including the `_id` attname variant — `customer` and `customer_id` both work). Built into `ExtendedAdminModel`. Disable with:
+Foreign-key field names in `list_display` are automatically rendered as clickable links to the related object's change page (including the `_id` attname variant — `customer` and `customer_id` both work). Built into `ExtendedModelAdmin`. Disable with:
 
 ```python
-class MyModelAdmin(ExtendedAdminModel):
+class MyModelAdmin(ExtendedModelAdmin):
     enable_foreign_link = False
 ```
 
@@ -193,14 +193,14 @@ Tool functions receive `(self, request, object_id)` for change-form tools and `(
 Register tools by name on the admin:
 
 ```python
-from admin_extended.core import ExtendedAdminModel
+from admin_extended.core import ExtendedModelAdmin
 from admin_extended.object_tools import object_tool
 from django.contrib import admin, messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 @admin.register(Order)
-class OrderAdmin(ExtendedAdminModel):
+class OrderAdmin(ExtendedModelAdmin):
     # GET tools render as links in the object-tools strip (top-right of change form).
     # POST tools render as buttons in the submit row (next to Save).
     change_form_tools = ('send_invoice', 'approve_order')
@@ -231,13 +231,13 @@ class OrderAdmin(ExtendedAdminModel):
         return response
 ```
 
-The `ObjectToolMixin` is composed into `ExtendedAdminModel` — subclassing `ExtendedAdminModel` is enough. URL routes auto-mount under `<app>/<model>/object-tools/<name>` and `<app>/<model>/<id>/object-tools/<name>`.
+The `ObjectToolMixin` is composed into `ExtendedModelAdmin` — subclassing `ExtendedModelAdmin` is enough. URL routes auto-mount under `<app>/<model>/object-tools/<name>` and `<app>/<model>/<id>/object-tools/<name>`.
 
 ---
 
 ## DefaultModelAdmin & Auto-registration
 
-`DefaultModelAdmin` extends `ExtendedAdminModel` and:
+`DefaultModelAdmin` extends `ExtendedModelAdmin` and:
 - builds `list_display` from all model fields except `id`, `TextField`, and `JSONField` (timestamps `created_at`/`created`/`modified_at`/`modified` moved to the end)
 - builds `list_filter` from fields that have `choices`
 - adds `select_related` for all relation fields in `get_queryset`
@@ -406,7 +406,7 @@ Icon reference: https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free
 ```
 admin_extended/
   conf.py                 # ADMIN_EXTENDED settings proxy
-  core/                   # ExtendedAdminModel, PageMode, field_visibility, actions
+  core/                   # ExtendedModelAdmin, PageMode, field_visibility, actions
   display/                # html_* helpers, color constants, DisplayLinkAdapter
   object_tools/           # @object_tool decorator, ObjectToolMixin, views
   autoregister/           # DefaultModelAdmin, auto_register

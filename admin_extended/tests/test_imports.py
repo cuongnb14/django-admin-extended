@@ -25,7 +25,7 @@ FORBIDDEN: dict[str, tuple[str, ...]] = {
         "admin_extended.bookmarks", "admin_extended.charts",
     ),
     "admin_extended/core/": (
-        # core composes ObjectToolMixin into ExtendedAdminModel — that is allowed.
+        # core composes ObjectToolMixin into ExtendedModelAdmin — that is allowed.
         "admin_extended.autoregister", "admin_extended.custom_pages",
         "admin_extended.bookmarks", "admin_extended.charts",
     ),

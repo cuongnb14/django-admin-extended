@@ -1,7 +1,7 @@
-"""Fieldset filtering helpers used by ExtendedAdminModel.
+"""Fieldset filtering helpers used by ExtendedModelAdmin.
 
 These are pure functions — they do not depend on a request or admin
-instance. ExtendedAdminModel composes them into ``get_fieldsets``.
+instance. ExtendedModelAdmin composes them into ``get_fieldsets``.
 """
 from __future__ import annotations
 

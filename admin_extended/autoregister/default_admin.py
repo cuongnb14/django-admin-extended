@@ -5,12 +5,12 @@ from typing import Any
 
 from django.db.models import JSONField, TextField
 
-from ..core import ExtendedAdminModel
+from ..core import ExtendedModelAdmin
 
 _END_OF_LIST_DISPLAY = ("created_at", "created", "modified_at", "modified")
 
 
-class DefaultModelAdmin(ExtendedAdminModel):
+class DefaultModelAdmin(ExtendedModelAdmin):
     """ModelAdmin that picks sensible defaults from the model schema."""
 
     list_display_ignore_field_types: tuple[type, ...] = (TextField, JSONField)

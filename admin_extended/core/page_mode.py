@@ -1,7 +1,7 @@
 """Page mode (view / edit / add) for the admin changeform.
 
 Implemented via ``contextvars.ContextVar`` so the request object is never
-mutated. ``ExtendedAdminModel._changeform_view`` enters ``page_mode_scope``
+mutated. ``ExtendedModelAdmin._changeform_view`` enters ``page_mode_scope``
 at the start of every request and exits it in a ``finally`` block.
 """
 from __future__ import annotations

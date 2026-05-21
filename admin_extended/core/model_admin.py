@@ -1,4 +1,4 @@
-"""ExtendedAdminModel — the main base class consumers subclass.
+"""ExtendedModelAdmin — the main base class consumers subclass.
 
 Composes:
   * ``DisplayLinkAdapter``  -> FK columns become links
@@ -29,7 +29,7 @@ def _has_search_fields(field) -> bool:  # type: ignore[no-untyped-def]
     return bool(model_admin and model_admin.search_fields)
 
 
-class ExtendedAdminModel(ObjectToolMixin, DisplayLinkAdapter, admin.ModelAdmin):
+class ExtendedModelAdmin(ObjectToolMixin, DisplayLinkAdapter, admin.ModelAdmin):
     """Drop-in replacement for ``admin.ModelAdmin`` with v6 features.
 
     Class attributes:

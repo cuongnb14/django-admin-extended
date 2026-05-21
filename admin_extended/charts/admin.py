@@ -4,13 +4,13 @@ from __future__ import annotations
 from django.contrib import admin
 from django.urls import reverse
 
-from ..core import ExtendedAdminModel
+from ..core import ExtendedModelAdmin
 from ..display import html_link
 from .models import TimeSeriesChart
 
 
 @admin.register(TimeSeriesChart)
-class TimeSeriesChartAdmin(ExtendedAdminModel):
+class TimeSeriesChartAdmin(ExtendedModelAdmin):
     list_display = ("name", "chart_type", "target_app_label", "target_model_name", "chart_link")
     list_display_links = ("name",)
     search_fields = ("name",)
