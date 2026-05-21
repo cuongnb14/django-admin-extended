@@ -72,6 +72,7 @@ class ExtendedAdminModel(ObjectToolMixin, DisplayLinkAdapter, admin.ModelAdmin):
 
     def _changeform_view(self, request, object_id, form_url, extra_context):  # type: ignore[no-untyped-def]
         mode = get_page_mode(request, object_id)
+        extra_context = {**(extra_context or {}), "ae_page_mode": mode.value}
         with page_mode_scope(mode):
             return super()._changeform_view(request, object_id, form_url, extra_context)
 

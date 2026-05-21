@@ -1,8 +1,23 @@
 {% extends "admin/base_site.html" %}
 {% block content %}
 <h1>{{ chart_title }}</h1>
-<form method="get">{{ form.as_p }}<button type="submit">Apply</button></form>
-<canvas id="chart-canvas"></canvas>
+<form method="get" class="ae-chart-form">
+  {% for field in form %}
+    <span class="ae-chart-field">
+      <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+      {{ field }}
+    </span>
+  {% endfor %}
+  <button type="submit" class="button default">Apply</button>
+</form>
+<style>
+  .ae-chart-form { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .ae-chart-field { display: inline-flex; align-items: center; gap: 6px; }
+  .ae-chart-field label { font-weight: bold; margin: 0; }
+  .ae-chart-form button { padding: 7px 16px; font-size: 13px; font-weight: 600; line-height: 1.2; }
+  .ae-chart-wrap { position: relative; width: 100%; height: calc(100vh - 260px); min-height: 280px; }
+</style>
+<div class="ae-chart-wrap"><canvas id="chart-canvas"></canvas></div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <script>
 (async () => {
@@ -17,7 +32,11 @@
       labels: j.labels,
       datasets: j.datasets.map(d => ({ label: d.label, data: d.data })),
     },
-    options: { scales: { x: { stacked: !!j.stacked }, y: { stacked: !!j.stacked } } },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: { x: { stacked: !!j.stacked }, y: { stacked: !!j.stacked } },
+    },
   });
 })();
 </script>
