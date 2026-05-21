@@ -1,10 +1,10 @@
-/* Dark theme */
-html[data-theme="dark"] {
-    --header-bg: #252525;
-    --breadcrumbs-bg: #323435;
-    --selected-row: #3a4043;
-}
+/* admin_extended theme palette.
+   Variables are declared per scheme; selector rules are declared once
+   inside light-mode blocks (rules don't apply in dark mode). */
 
+:root {
+    --breadcrumbs-bg: #255a73;
+}
 
 @media (prefers-color-scheme: dark) {
     :root {
@@ -14,41 +14,34 @@ html[data-theme="dark"] {
     }
 }
 
-/* Light theme */
 html[data-theme="light"] {
     --breadcrumbs-bg: #255a73;
 
     #nav-sidebar tr th a:link,
-    #nav-sidebar tr th a:visited {
+    #nav-sidebar tr th a:visited,
+    #nav-sidebar .addlink {
         color: #fff;
     }
 
     #nav-sidebar .current-model {
         background: var(--breadcrumbs-bg);
     }
-
-    #nav-sidebar .addlink {
-        color: #fff;
-    }
-
 }
 
+html[data-theme="dark"] {
+    --header-bg: #252525;
+    --breadcrumbs-bg: #323435;
+    --selected-row: #3a4043;
+}
 
 @media (prefers-color-scheme: light) {
-    :root {
-        --breadcrumbs-bg: #255a73;
-    }
-    #nav-sidebar tr th a:link,
-    #nav-sidebar tr th a:visited {
+    html:not([data-theme="dark"]) #nav-sidebar tr th a:link,
+    html:not([data-theme="dark"]) #nav-sidebar tr th a:visited,
+    html:not([data-theme="dark"]) #nav-sidebar .addlink {
         color: #fff;
     }
 
-    #nav-sidebar .current-model {
+    html:not([data-theme="dark"]) #nav-sidebar .current-model {
         background: var(--breadcrumbs-bg);
     }
-
-    #nav-sidebar .addlink {
-        color: #fff;
-    }
-
 }

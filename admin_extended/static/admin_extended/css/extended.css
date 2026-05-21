@@ -1,27 +1,3 @@
-/* Bookmark
-  ========================================================================================= */
-
-.btn-bookmark {
-    position: fixed;
-    width: 40px;
-    height: 40px;
-    bottom: 10px;
-    right: 10px;
-    background-color: rgb(65 118 144 / 10%);
-    color: #FFF;
-    border-radius: 50px;
-    text-align: center;
-}
-
-.btn-bookmark:hover {
-    cursor: pointer;
-    background-color: #628da3;
-}
-
-.btn-bookmark .icon {
-    margin-top: 14px;
-}
-
 /* INLINE MODEL
   ========================================================================================= */
 .inline-group .tabular td.original p {
@@ -107,23 +83,6 @@ table#result_list .field-id {
 #nav-filter.no-results {
     background: var(--primary);
 }
-
-/**
-  #nav-sidebar::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #ffffff;
-  }
-
-  #nav-sidebar::-webkit-scrollbar {
-    width: 10px;
-    background-color: #F5F5F5;
-  }
-
-  #nav-sidebar::-webkit-scrollbar-thumb {
-    background-color: #ffffff;
-    border: 1px solid #d6d6d6;
-  }
-  */
 
 .toggle-nav-sidebar::before {
     content: '\2630';
