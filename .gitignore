@@ -92,6 +92,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# uv (not standardized on; project uses pip + tox)
+uv.lock
+
 # Spyder project settings
 .spyderproject
 .spyproject
