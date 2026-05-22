@@ -3,6 +3,23 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.1] — 2026-05-22
+
+### Fixed
+
+- `change_form`: Edit button in view-mode was gated on
+  `has_change_permission or has_delete_permission`. Because
+  `ExtendedModelAdmin.has_change_permission` returns `False` in VIEW mode, the
+  condition collapsed to delete permission — hiding the Edit button from users
+  with only change permission, and showing it to delete-only users. The button
+  is now gated on a new `ae_has_change_permission` context variable that
+  reflects the underlying model-level change permission.
+
+### Changed
+
+- `change_form`: Edit button is now rendered after user-defined object tools,
+  so it sits at the end of the object-tools toolbar.
+
 ## [6.0.0] — 2026-05-20
 
 ### ⚠️ Breaking changes
