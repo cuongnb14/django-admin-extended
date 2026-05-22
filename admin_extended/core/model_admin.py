@@ -72,7 +72,15 @@ class ExtendedModelAdmin(ObjectToolMixin, DisplayLinkAdapter, admin.ModelAdmin):
 
     def _changeform_view(self, request, object_id, form_url, extra_context):  # type: ignore[no-untyped-def]
         mode = get_page_mode(request, object_id)
-        extra_context = {**(extra_context or {}), "ae_page_mode": mode.value}
+        # Capture the underlying model-level change permission for templates
+        # (Edit-button visibility). Calling with obj=None bypasses the
+        # VIEW-mode short-circuit in has_change_permission below, while still
+        # honoring any user-defined override.
+        extra_context = {
+            **(extra_context or {}),
+            "ae_page_mode": mode.value,
+            "ae_has_change_permission": self.has_change_permission(request),
+        }
         with page_mode_scope(mode):
             return super()._changeform_view(request, object_id, form_url, extra_context)
 
