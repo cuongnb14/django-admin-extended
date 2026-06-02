@@ -387,7 +387,18 @@ Two libraries are auto-loaded with `{% load admin_extended_menu %}` and `{% load
 ```bash
 # Print the migration dependency tree for one or more apps.
 python manage.py migration_graph myapp otherapp
+
+# Create the database for a configured connection if it does not exist.
+# Reads HOST/PORT/USER/PASSWORD/NAME from settings.DATABASES and connects to the
+# server's admin database to issue CREATE DATABASE. Idempotent: skips if present.
+python manage.py create_db                 # uses the 'default' alias
+python manage.py create_db --database analytics
 ```
+
+Supports the PostgreSQL (`django.db.backends.postgresql`) and MySQL
+(`django.db.backends.mysql`) engines only. PostgreSQL requires `psycopg`; MySQL
+requires `mysqlclient` or `pymysql`. The connecting user needs `CREATE DATABASE`
+privileges. New MySQL databases are created with `utf8mb4` / `utf8mb4_unicode_ci`.
 
 ---
 
@@ -415,5 +426,5 @@ admin_extended/
   charts/                 # sub-app: TimeSeriesChart, ChartQueryService, views, forms
   templatetags/           # admin_extended_menu, admin_extended_misc
   templates/admin/        # base_site, change_form, change_list, app_list overrides
-  management/commands/    # migration_graph
+  management/commands/    # migration_graph, create_db
 ```

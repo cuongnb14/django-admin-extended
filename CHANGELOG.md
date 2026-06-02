@@ -3,6 +3,16 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- `create_db` management command: creates the database for a configured
+  connection if it does not exist. Supports PostgreSQL and MySQL, reads
+  connection details from `settings.DATABASES`, accepts a `--database` alias
+  (default: `default`), and is idempotent (skips creation when the database
+  already exists).
+
 ## [6.0.1] — 2026-05-22
 
 ### Fixed
