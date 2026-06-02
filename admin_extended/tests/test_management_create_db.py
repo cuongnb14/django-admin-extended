@@ -3,6 +3,7 @@
 The CREATE DATABASE path requires a live PostgreSQL/MySQL server and is not
 exercised here; these cover the argument and engine validation only.
 """
+
 from __future__ import annotations
 
 import pytest
@@ -11,7 +12,7 @@ from django.core.management.base import CommandError
 
 
 def test_create_db_unknown_alias():
-    with pytest.raises(CommandError, match="not found in settings.DATABASES"):
+    with pytest.raises(CommandError, match=r"not found in settings\.DATABASES"):
         call_command("create_db", "--database", "nope")
 
 
